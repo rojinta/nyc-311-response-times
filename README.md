@@ -2,7 +2,7 @@
 
 An analysis of 3.96 million NYC 311 service requests from October 2025 to September 2026. It asks one question: **how long do New Yorkers wait for a request to be closed, and what explains the difference?**
 
-Dashboard: *add the link here after publishing*
+Dashboard: https://rojinta.github.io/nyc-311-response-times/
 
 ## The short answer
 
