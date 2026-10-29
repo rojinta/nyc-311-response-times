@@ -1,0 +1,1053 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NYC 311 Response Times</title>
+<meta name="description" content="An analysis of 3.96 million NYC 311 service requests: what New Yorkers complain about matters more than where they live.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=DM+Sans:wght@400;500;600;700&display=swap');
+.nyc { --serif: 'Fraunces', Georgia, 'Times New Roman', serif; --sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; --ink: #1b2130; --mute: #5b6577; --rule: #dde1e8; --paper: #f5f6f8; --panel: #ffffff; --grey: #b9bfcb; --fast: #17776e; --slow: #c4551a;
+  color-scheme: light; max-width: 72rem; margin-inline: auto; background: var(--paper); color: var(--ink); border-radius: 16px;
+  padding: clamp(1rem, 3.2vw, 2.4rem); display: grid; gap: clamp(2rem, 5vw, 3.4rem); font-family: var(--sans); line-height: 1.45; }
+.nyc *, .nyc *::before, .nyc *::after { box-sizing: border-box; }
+.nyc h1, .nyc h2, .nyc h3, .nyc p { margin: 0; }
+.nyc .eyebrow { font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
+.nyc h1 { font-family: var(--serif); font-weight: 500; letter-spacing: -.02em; font-size: clamp(2rem, 4.8vw, 3.1rem); line-height: 1.08; text-wrap: balance; margin-top: .5rem; max-width: 20em; }
+.nyc .lead { font-size: 1.12rem; line-height: 1.55; max-width: 44rem; margin-top: 1rem; }
+.nyc .hl { font-weight: 600; font-variant-numeric: tabular-nums; }
+.nyc nav { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin-top: 1.1rem; font-size: .82rem; }
+.nyc nav a { color: var(--mute); text-decoration: none; border-bottom: 1px solid var(--grey); padding-bottom: 1px; cursor: pointer; }
+.nyc nav a:hover, .nyc nav a:focus-visible { color: var(--ink); border-bottom-color: var(--ink); outline: none; }
+
+.nyc .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10.5rem), 1fr)); gap: 1rem 1.4rem; }
+.nyc .kpi { display: grid; gap: .25rem; align-content: start; border-top: 3px solid var(--ink); padding-top: .6rem; }
+.nyc .kpi.fast { border-top-color: var(--fast); }
+.nyc .kpi.slow { border-top-color: var(--slow); }
+.nyc .kpi .k-l { font-size: .76rem; color: var(--mute); }
+.nyc .kpi .num { font-family: var(--serif); font-weight: 500; font-size: 2.3rem; line-height: 1.05; font-variant-numeric: lining-nums tabular-nums; min-height: 2.4rem; }
+.nyc .kpi .k-n { font-size: .76rem; color: var(--mute); }
+
+.nyc section { display: grid; gap: 1.1rem; scroll-margin-top: 1rem; }
+.nyc .sec-head { display: grid; gap: .5rem; max-width: 46rem; }
+.nyc h2 { font-family: var(--serif); font-weight: 500; letter-spacing: -.01em; font-size: clamp(1.5rem, 3.2vw, 2.05rem); line-height: 1.15; text-wrap: balance; }
+.nyc .intro { color: var(--mute); font-size: .98rem; line-height: 1.55; }
+.nyc .intro .hl { color: var(--ink); }
+.nyc .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 25rem), 1fr)); gap: 1.1rem; }
+.nyc .fig { background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: 1.1rem 1.2rem 1.2rem; display: grid; gap: .55rem; align-content: start; min-width: 0; }
+.nyc .fig.bare { background: transparent; border: 0; padding: 0; }
+.nyc .fig h3 { font-size: 1rem; font-weight: 600; }
+.nyc .fig .note { font-size: .8rem; color: var(--mute); line-height: 1.5; max-width: 50rem; }
+.nyc .callout { font-size: .95rem; line-height: 1.5; padding: .7rem 1rem; border-left: 3px solid var(--slow); background: var(--panel); border-radius: 0 10px 10px 0; max-width: 50rem; }
+.nyc .head-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem; }
+.nyc .head-row .note { flex: 1 1 22rem; }
+.nyc .head-row input[type=search] { margin-left: auto; flex: 0 0 auto; }
+.nyc .chart { position: relative; min-width: 0; }
+.nyc .chart.dash-skeleton { min-height: 12rem; }
+.nyc svg.fig-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.nyc svg text { font-family: var(--sans); }
+
+.nyc details.fold { background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: .2rem 1.2rem; }
+.nyc details.fold > summary { cursor: pointer; font-size: .88rem; font-weight: 600; padding: .8rem 0; color: var(--ink); }
+.nyc details.fold[open] > summary { border-bottom: 1px solid var(--rule); margin-bottom: .8rem; }
+.nyc details.fold .inner { display: grid; gap: .7rem; padding-bottom: 1rem; }
+.nyc .scroll { overflow: auto; max-height: 26rem; border: 1px solid var(--rule); border-radius: 10px; }
+.nyc .scroll.short { max-height: none; }
+.nyc table { border-collapse: collapse; width: 100%; font-size: .86rem; font-variant-numeric: tabular-nums; background: var(--panel); }
+.nyc th, .nyc td { padding: .5rem .7rem; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--rule); vertical-align: middle; color: var(--ink); }
+.nyc th:first-child, .nyc td:first-child { text-align: left; white-space: normal; min-width: 11rem; }
+.nyc thead th { position: sticky; top: 0; background: var(--panel); font-weight: 600; font-size: .75rem; color: var(--mute); z-index: 1; }
+.nyc thead th button { all: unset; cursor: pointer; font: inherit; color: inherit; }
+.nyc thead th button:hover, .nyc thead th button:focus-visible { color: var(--ink); text-decoration: underline; }
+.nyc thead th[aria-sort=ascending] button::after { content: " \2191"; }
+.nyc thead th[aria-sort=descending] button::after { content: " \2193"; }
+.nyc tbody tr:last-child td { border-bottom: 0; }
+.nyc td small { display: block; color: var(--mute); font-size: .74rem; }
+.nyc .cellbar { display: flex; align-items: center; justify-content: flex-end; gap: .5rem; }
+.nyc .cellbar span { width: 5rem; height: .6rem; display: inline-block; position: relative; border-left: 1px solid var(--grey); }
+.nyc .cellbar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 3px 3px 0; }
+.nyc input[type=search] { font: inherit; font-size: .86rem; color: var(--ink); background: #fff; border: 1px solid var(--rule); border-radius: 8px; padding: .4rem .6rem; width: 14rem; max-width: 100%; }
+.nyc input[type=search]:focus-visible, .nyc summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.nyc .tip { position: absolute; z-index: 5; pointer-events: none; background: var(--ink); color: #fff; border-radius: 8px; padding: .4rem .6rem; font-size: .76rem; line-height: 1.45; max-width: 17rem; font-variant-numeric: tabular-nums; box-shadow: 0 4px 14px rgba(20, 25, 40, .22); }
+.nyc .tip .tip-t { color: #c9d0de; }
+.nyc .fail { min-height: 4rem; display: flex; align-items: center; justify-content: center; gap: .4rem; color: var(--mute); font-size: .8rem; }
+.nyc .fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--slow); }
+.nyc [data-dash-source-state=empty] { color: transparent; }
+.nyc [data-dash-source-state=refreshing] { opacity: .5; transition: opacity .3s; }
+
+.nyc .method ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .5rem; font-size: .9rem; line-height: 1.5; }
+.nyc .method li strong { font-weight: 600; }
+.nyc footer { font-size: .78rem; color: var(--mute); line-height: 1.55; display: grid; gap: .3rem; border-top: 1px solid var(--rule); padding-top: 1rem; }
+
+html { background: #e8eaef; }
+body { margin: 0; padding: clamp(.5rem, 2vw, 1.5rem); background: #e8eaef; }
+.nyc .dash-skeleton { background: linear-gradient(90deg, #eceef2 25%, #f6f7f9 50%, #eceef2 75%); background-size: 200% 100%; animation: sk 1.4s ease-in-out infinite; border-radius: 6px; color: transparent; }
+@keyframes sk { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .nyc .dash-skeleton { animation: none; } }
+</style>
+</head>
+<body>
+
+
+<div class="nyc">
+  <header id="top">
+    <p class="eyebrow">NYC 311 service requests, <span data-draw="val" data-source="headline" data-field="window_label" data-fmt="text">—</span></p>
+    <h1>What you complain about matters more than where you live</h1>
+    <p class="lead">A police request closes in a median of <span class="hl" data-draw="val" data-source="headline" data-field="nypd_median_hrs" data-fmt="dur">—</span>. A housing request takes <span class="hl" data-draw="val" data-source="headline" data-field="hpd_median_hrs" data-fmt="dur">—</span>. Housing is <span class="hl" data-draw="val" data-source="headline" data-field="hpd_request_share_pct" data-fmt="pct">—</span> of requests that have closed but <span class="hl" data-draw="val" data-source="headline" data-field="hpd_wait_share_pct" data-fmt="pct">—</span> of all the time New Yorkers spend waiting.</p>
+    <nav aria-label="Sections">
+      <a href="#volume" data-go="volume">What New York asks for</a>
+      <a href="#speed" data-go="speed">How long it takes</a>
+      <a href="#geography" data-go="geography">Does the borough matter?</a>
+      <a href="#surges" data-go="surges">Do surges slow things?</a>
+      <a href="#open" data-go="open">What never closes</a>
+      <a href="#method" data-go="method">How to read this</a>
+    </nav>
+  </header>
+
+  <div class="kpis">
+    <div class="kpi"><span class="k-l">Requests</span><span class="num dash-skeleton" data-draw="val" data-source="headline" data-field="total_requests" data-fmt="compact">—</span><span class="k-n">created in the window</span></div>
+    <div class="kpi"><span class="k-l">From three agencies</span><span class="num dash-skeleton" data-draw="val" data-source="headline" data-field="top3_agency_pct" data-fmt="pct">—</span><span class="k-n">police, housing, sanitation</span></div>
+    <div class="kpi fast"><span class="k-l">Typical police wait</span><span class="num dash-skeleton" data-draw="val" data-source="headline" data-field="nypd_median_hrs" data-fmt="dur">—</span><span class="k-n">median time to close</span></div>
+    <div class="kpi slow"><span class="k-l">Typical housing wait</span><span class="num dash-skeleton" data-draw="val" data-source="headline" data-field="hpd_median_hrs" data-fmt="dur">—</span><span class="k-n">median time to close</span></div>
+    <div class="kpi slow"><span class="k-l">Open after six months</span><span class="num dash-skeleton" data-draw="val" data-source="headline" data-field="backlog_6m" data-fmt="int">—</span><span class="k-n">requests with no close date</span></div>
+  </div>
+
+  <section id="hero" aria-labelledby="h-hero">
+    <div class="sec-head">
+      <h2 id="h-hero">Big and fast, or small and slow</h2>
+      <p class="intro">Each block is a complaint type. Bigger blocks are more requests. Color is the typical time to close: teal is fast, orange is slow. Police work fills most of the map in teal, while housing and building complaints are smaller and warmer. Complaint types with at least ten thousand requests are shown. Hover an agency's code, such as HPD or DOT, to see what it does.</p>
+    </div>
+    <div class="fig bare">
+      <div class="chart dash-skeleton" id="chart-hero" data-draw="hero" data-source="complaints"></div>
+    </div>
+  </section>
+
+  <section id="volume" aria-labelledby="h-volume">
+    <div class="sec-head">
+      <h2 id="h-volume">Three agencies handle three quarters of 311</h2>
+      <p class="intro">Police, housing and sanitation produce most requests. By borough, the Bronx files more than its share and Queens and Staten Island less.</p>
+    </div>
+    <div class="pair">
+      <div class="fig">
+        <h3>Share of all requests, by agency</h3>
+        <p class="note">Each color is that agency's typical time to close, on the same scale as the map.</p>
+        <div class="chart dash-skeleton" id="chart-share" data-draw="shareBar" data-source="agencies headline"></div>
+      </div>
+      <div class="fig">
+        <h3>Share of residents and share of requests</h3>
+        <p class="note">Population is the Census Bureau's July 2025 estimate. Boroughs are ordered from most requests relative to residents to fewest. A borough's share of requests reflects need and willingness to report together.</p>
+        <div class="chart dash-skeleton" id="chart-pop" data-draw="popDumbbell" data-source="boroughs"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="speed" aria-labelledby="h-speed">
+    <div class="sec-head">
+      <h2 id="h-speed">Who handles a request decides how long it takes</h2>
+      <p class="intro">Police take a large share of requests and almost none of the waiting. Housing, buildings and parks do the reverse. Requests still open count as not done, so slow agencies are not flattered by the ones that never closed.</p>
+    </div>
+    <div class="fig">
+      <h3>Share of requests versus share of waiting time</h3>
+      <p class="note">Waiting time is the days between opening and closing, added up across closed requests. Both shares use closed requests that had about three months to close.</p>
+      <div class="chart dash-skeleton" id="chart-slope" data-draw="waitSlope" data-source="agency_shares"></div>
+    </div>
+    <div class="fig">
+      <h3>Typical time to close, by complaint type</h3>
+      <p class="note">One dot per complaint type with at least ten thousand requests. Dot size is volume and color follows the same scale as the map. The axis is logarithmic, so each gridline is a step up from an hour to months. Typical wait is measured on requests that closed, so where most requests never close, as with helicopter noise, it describes only the few that did.</p>
+      <div class="chart dash-skeleton" id="chart-dots" data-draw="dotPlot" data-source="complaints agencies"></div>
+    </div>
+    <details class="fold">
+      <summary>See the data: speed by agency</summary>
+      <div class="inner">
+        <p class="note">Median is the typical closed request. The slow tenth is the 90th percentile: nine in ten close faster. The typical wait above keeps requests that were closed in the very same second they were created. The last two columns show how much those matter: where they are common, such as buildings, health, transportation and environmental protection, leaving them out raises the typical wait.</p>
+        <div class="scroll short">
+          <table data-source="agencies" data-row-key="agency" id="table-agency-speed">
+            <thead><tr>
+              <th data-field="agency">Agency</th>
+              <th data-field="requests">Requests</th>
+              <th data-field="median_hrs">Typical wait</th>
+              <th data-field="p90_hrs">Slow tenth</th>
+              <th data-field="pct_not_done_7d">Not done in a week</th>
+              <th data-field="pct_zero_dur">Closed in the same second</th>
+              <th data-field="median_excl_zero">Typical wait without those</th>
+            </tr></thead>
+            <tbody data-draw="agencySpeedBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+    <details class="fold">
+      <summary>See the data: main complaint types</summary>
+      <div class="inner">
+        <div class="head-row">
+          <p class="note">Click a column to sort. Only complaint types with at least ten thousand requests are listed. Share of all waiting counts closed requests only, so it understates true waiting.</p>
+          <input type="search" id="complaint-search" aria-label="Search complaint types" placeholder="Search complaint types">
+        </div>
+        <div class="scroll">
+          <table data-source="complaints" data-row-key="complaint" id="table-complaints">
+            <thead><tr>
+              <th data-field="complaint" aria-sort="none"><button type="button" data-sort="complaint">Complaint</button></th>
+              <th data-field="requests" aria-sort="none"><button type="button" data-sort="requests">Requests</button></th>
+              <th data-field="median_hrs" aria-sort="none"><button type="button" data-sort="median_hrs">Typical wait</button></th>
+              <th data-field="p90_hrs" aria-sort="none"><button type="button" data-sort="p90_hrs">Slow tenth</button></th>
+              <th data-field="pct_not_done_7d" aria-sort="none"><button type="button" data-sort="pct_not_done_7d">Not done in a week</button></th>
+              <th data-field="pct_of_all_waiting" aria-sort="descending"><button type="button" data-sort="pct_of_all_waiting">Share of all waiting</button></th>
+            </tr></thead>
+            <tbody data-draw="complaintsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <section id="geography" aria-labelledby="h-geo">
+    <div class="sec-head">
+      <h2 id="h-geo">Borough rankings reverse once you compare like with like</h2>
+      <p class="intro">Queens looks fastest and Manhattan slowest, but only because <span class="hl" data-draw="val" data-source="boroughs" data-field="nypd_share_pct" data-where="borough=Queens" data-fmt="pct">—</span> of Queens' requests go to police, who close fast, while <span class="hl" data-draw="val" data-source="boroughs" data-field="hpd_dob_share_pct" data-where="borough=Manhattan" data-fmt="pct">—</span> of Manhattan's go to housing or buildings, which close slowly.</p>
+    </div>
+    <div class="fig">
+      <h3>Slowest to fastest: raw medians against a like-for-like comparison</h3>
+      <p class="note">Left: boroughs ranked by their raw median time to close. Right: ranked after comparing each borough with the citywide median for the same complaint type, weighted by that borough's own mix. The number is the index: above one is slower than the citywide norm. Staten Island's line is dashed because its position is uncertain: it moves a lot depending on whether instant closures are counted, which the other boroughs' do not. The gaps between boroughs are small, and Bronx, Brooklyn and Queens are almost tied on the adjusted index, so read this as the raw ranking not holding up, not as a precise new ranking.</p>
+      <div class="chart dash-skeleton" id="chart-rank" data-draw="rankSlope" data-source="boroughs"></div>
+    </div>
+    <div class="fig">
+      <h3>Complaint type by borough, against the citywide median</h3>
+      <p class="note">Color shows whether a borough is faster (teal) or slower (orange) than the citywide median for the same complaint. Numbers are the borough's median time to close. About <span class="hl" data-draw="val" data-source="headline" data-field="same_second_closures" data-fmt="int">—</span> requests were created and closed in the very same second, which looks like an automatic or administrative close rather than real work. They are not spread evenly across boroughs, so they are left out here to keep the comparison fair.</p>
+      <div class="chart dash-skeleton" id="chart-heatmap" data-draw="boroughHeat" data-source="borough_complaint"></div>
+      <p class="callout">Street conditions take <span class="hl" data-draw="val" data-source="headline" data-field="street_bronx_vs_queens_x" data-fmt="times">—</span> as long in the Bronx as in Queens, and water system complaints <span class="hl" data-draw="val" data-source="headline" data-field="water_bronx_vs_queens_x" data-fmt="times">—</span> as long.</p>
+    </div>
+    <details class="fold">
+      <summary>See the data: why the raw ranking misleads</summary>
+      <div class="inner">
+        <p class="note">A borough's raw median depends on what its residents complain about. Police close requests fast, so a borough where most requests go to police looks fast; a borough with many housing and building requests looks slow. The adjusted index removes that effect by comparing each borough with the city on the same complaint types: 1.0 means typical, above 1.0 slower, below 1.0 faster. The last column redoes the index with instant closures included. Staten Island moves a lot, so its position is uncertain.</p>
+        <div class="scroll short">
+          <table data-source="boroughs" data-row-key="borough" id="table-boroughs">
+            <thead><tr>
+              <th data-field="borough">Borough</th>
+              <th data-field="nypd_share_pct">Police share</th>
+              <th data-field="hpd_dob_share_pct">Housing and buildings share</th>
+              <th data-field="raw_median_hrs">Raw median</th>
+              <th data-field="adjusted_index">Adjusted index</th>
+              <th data-field="adjusted_index_with_zero">Index with instant closures</th>
+            </tr></thead>
+            <tbody data-draw="boroughMixBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <section id="surges" aria-labelledby="h-surge">
+    <div class="sec-head">
+      <h2 id="h-surge">Surges slow some services, not all</h2>
+      <p class="intro">On the busiest quarter of days, the median heat and hot water wait is <span class="hl" data-draw="val" data-source="heat_quartiles" data-field="median_wait_hrs" data-where="vol_quartile=4" data-fmt="dur">—</span>, against <span class="hl" data-draw="val" data-source="heat_quartiles" data-field="median_wait_hrs" data-where="vol_quartile=1" data-fmt="dur">—</span> on the quietest: about <span class="hl" data-draw="val" data-source="headline" data-field="heat_busy_vs_quiet_pct" data-fmt="pct0">—</span> longer.</p>
+    </div>
+    <div class="fig">
+      <h3>Heat and hot water through the season</h3>
+      <p class="note">Seven-day averages for requests created from October through July. Hover to read a day.</p>
+      <div class="chart dash-skeleton" id="chart-heat" data-draw="heatTimeline" data-source="heat_daily"></div>
+    </div>
+    <div class="pair">
+      <div class="fig">
+        <h3>Busier days, longer waits</h3>
+        <p class="note">Each dot is one day. Days are ranked from quietest to busiest and split into eight groups with the same number of days. The line joins each group's typical wait. Five or ten groups give a similar shape.</p>
+        <div class="chart dash-skeleton" id="chart-scatter" data-draw="heatScatter" data-source="heat_daily"></div>
+      </div>
+      <div class="fig">
+        <h3>Does a busy day lengthen the wait? By complaint type</h3>
+        <p class="note">Rank correlation between a day's volume and that day's median wait. Right of the line: busier days, longer waits. Left of it: busier days, shorter waits. A correlation, not proof: cold snaps could drive both.</p>
+        <div class="chart dash-skeleton" id="chart-surge" data-draw="surgeLollipop" data-source="surge"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="open" aria-labelledby="h-open">
+    <div class="sec-head">
+      <h2 id="h-open">A few complaint types account for most requests that never close</h2>
+      <p class="intro"><span class="hl" data-draw="val" data-source="headline" data-field="backlog_6m" data-fmt="int">—</span> requests from at least six months ago still have no close date. Ten complaint types hold <span class="hl" data-draw="val" data-source="headline" data-field="backlog_top10_pct" data-fmt="pct">—</span> of them.</p>
+    </div>
+    <div class="fig">
+      <h3>Where the backlog sits</h3>
+      <p class="note">Requests created in the first six months of the window with no close date, by complaint type.</p>
+      <div class="chart dash-skeleton" id="chart-pareto" data-draw="paretoOpen" data-source="open_complaint"></div>
+    </div>
+    <div class="fig">
+      <h3>Share still open, by agency</h3>
+      <p class="note">Share of each agency's requests from the first six months that have no close date.</p>
+      <div class="chart dash-skeleton" id="chart-open-agency" data-draw="openAgencyLollipop" data-source="open_agency"></div>
+    </div>
+  </section>
+
+  <section id="method" aria-labelledby="h-method">
+    <div class="sec-head"><h2 id="h-method">How to read this</h2></div>
+    <div class="fig method">
+      <ul>
+        <li><strong>Closed is not fixed.</strong> The data records when an agency closed a request, not whether the problem was solved.</li>
+        <li><strong>Cleaning.</strong> <span class="hl" data-draw="val" data-source="headline" data-field="dropped_impossible" data-fmt="int">—</span> records were removed because they closed before they were created or after the data was pulled. <span class="hl" data-draw="val" data-source="headline" data-field="no_close_total" data-fmt="int">—</span> requests with no close date were kept and counted as not done.</li>
+        <li><strong>Same-second closures.</strong> <span class="hl" data-draw="val" data-source="headline" data-field="same_second_closures" data-fmt="int">—</span> requests were created and closed in the same second. They cluster in certain complaint types and boroughs and look administrative, so the borough comparison leaves them out. The agency and complaint speed figures keep them, which makes buildings, health, transportation and environmental protection look somewhat faster than they otherwise would. The speed table under the agency chart shows both versions.</li>
+        <li><strong>Fair comparison.</strong> Speed measures use requests with at least three months to close. The backlog uses requests with at least six months.</li>
+        <li><strong>Typical wait covers closed requests only.</strong> Where most requests never close, such as helicopter noise, it describes only the few that did. The share not done in a week counts every request.</li>
+        <li><strong>Waiting totals are a floor.</strong> Time spent waiting counts closed requests only, so true waiting is longer.</li>
+        <li><strong>Staten Island is uncertain.</strong> Its adjusted index moves a lot depending on how same-second closures are handled.</li>
+        <li><strong>Surges are a correlation.</strong> A busy day and a long wait go together for some complaint types, not for others, and run the opposite way for a few. This analysis cannot show that one causes the other.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+      <p>Source: NYC Open Data, 311 Service Requests from 2010 to Present (dataset erm2-nwe9), pulled on 2026-10-26. Population: US Census Bureau, Vintage 2025 estimates for July 1, 2025.</p>
+      <p>Analysis: SQL in DuckDB. Medians and percentiles are computed per complaint type, agency or borough as labelled on each chart.</p>
+    </footer>
+</div>
+
+
+<script src="vendor/d3.min.js"></script>
+<script>
+/* Small stand-in for the artifact runtime: loads dashboard_data/*.csv and re-runs the drawings. */
+const dash = (() => {
+  const SOURCES = ['headline','agencies','complaints','boroughs','borough_complaint','heat_daily','heat_quartiles','surge','open_agency','open_complaint','agency_shares'];
+  const store = {};
+  const draws = {};
+  SOURCES.forEach((id) => { store[id] = { status: 'loading', data: null }; });
+  function run(name) {
+    document.querySelectorAll('[data-draw="' + name + '"]').forEach((el) => { try { draws[name](el); } catch (e) { console.error(name, e); } });
+  }
+  function runAll() { Object.keys(draws).forEach(run); }
+  return {
+    data(id) { return store[id] || { status: 'missing', data: null }; },
+    draw(name, fn) { if (fn) { draws[name] = fn; } else if (draws[name]) { run(name); } },
+    setLink(id) { try { history.replaceState(null, '', '#' + id); } catch (e) {} },
+    start() {
+      const loads = SOURCES.map((id) => d3.csv('dashboard_data/' + id + '.csv')
+        .then((rows) => { store[id] = { status: 'ok', data: rows }; })
+        .catch(() => { store[id] = { status: 'error', data: null }; }));
+      Promise.all(loads).then(() => {
+        const go = () => { runAll(); const h = location.hash.slice(1); if (h) { const t = document.getElementById(h); if (t) t.scrollIntoView(); } };
+        (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(go);
+        let timer; let lastW = window.innerWidth;
+        window.addEventListener('resize', () => { if (window.innerWidth === lastW) return; lastW = window.innerWidth; clearTimeout(timer); timer = setTimeout(runAll, 200); });
+      });
+    },
+  };
+})();
+
+const nf = d3.format(',');
+const f1 = d3.format('.1f');
+const f2 = d3.format('.2f');
+const compactNf = new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 2 });
+const INK = '#1b2130', MUTE = '#5b6577', RULE = '#dde1e8', GREY = '#b9bfcb', FAST = '#17776e', SLOW = '#c4551a';
+const BOROUGHS = ['Bronx', 'Brooklyn', 'Manhattan', 'Queens', 'Staten Island'];
+
+/* one color meaning everywhere: log10(hours) -> teal (fast) to orange (slow) */
+const waitScale = d3.scaleLinear().domain([-0.3, 1.38, 2.23, 3.2, 3.7])
+  .range(['#17776e', '#8dc1b2', '#f1e4c0', '#dd8a3d', '#a7391a']).clamp(true);
+const wc = (h) => waitScale(Math.log10(Math.max(+h, 0.1)));
+const onFill = (c) => (d3.lab(c).l > 62 ? INK : '#ffffff');
+const ratioScale = d3.scaleLinear().domain([Math.log(0.5), 0, Math.log(2)]).range(['#17776e', '#f2efe6', '#c4551a']).clamp(true);
+
+function dur(h) {
+  if (!isFinite(h)) return '—';
+  if (h < 1) return Math.max(1, Math.round(h * 60)) + ' min';
+  if (h < 48) return f1(h).replace(/\.0$/, '') + ' h';
+  const d = h / 24;
+  return (d < 10 ? f1(d).replace(/\.0$/, '') : nf(Math.round(d))) + ' days';
+}
+function durC(h) {
+  if (h < 1) return Math.max(1, Math.round(h * 60)) + 'm';
+  if (h < 48) return Math.round(h) + 'h';
+  const d = h / 24;
+  return (d < 10 ? f1(d).replace(/\.0$/, '') : nf(Math.round(d))) + 'd';
+}
+const FM = {
+  text: (v) => String(v), int: (v) => nf(Math.round(+v)), compact: (v) => compactNf.format(+v),
+  pct: (v) => f1(+v) + '%', pct0: (v) => d3.format('.0f')(+v) + '%', dur: (v) => dur(+v), times: (v) => f1(+v) + '×',
+};
+function pretty(complaint) {
+  const parts = complaint.split(' - ');
+  const ag = parts.shift();
+  let name = parts.join(' - ');
+  if (name === name.toUpperCase()) name = name.charAt(0) + name.slice(1).toLowerCase();
+  return { ag, name };
+}
+const trunc = (s, px, fs) => {
+  const n = Math.max(1, Math.floor(px / (fs * 0.57)));
+  return s.length <= n ? s : s.slice(0, Math.max(1, n - 1)) + '…';
+};
+function relax(list, gap, lo, hi) {
+  const s = list.slice().sort((a, b) => a.y - b.y);
+  s.forEach((d, i) => { d.ly = i === 0 ? Math.max(lo, d.y) : Math.max(d.y, s[i - 1].ly + gap); });
+  if (s.length && s[s.length - 1].ly > hi) {
+    s[s.length - 1].ly = hi;
+    for (let i = s.length - 2; i >= 0; i--) s[i].ly = Math.min(s[i].ly, s[i + 1].ly - gap);
+  }
+}
+
+function failLine(tag) {
+  const d = document.createElement('div');
+  d.className = 'fail';
+  d.textContent = 'Failed to load';
+  if (tag === 'TBODY') {
+    const tr = document.createElement('tr'); const td = document.createElement('td');
+    td.colSpan = 8; td.appendChild(d); tr.appendChild(td); return tr;
+  }
+  return d;
+}
+function ready(el, ids) {
+  const gs = ids.map((id) => dash.data(id));
+  if (gs.some((g) => ['error', 'connect', 'declined', 'missing'].includes(g.status))) {
+    el.classList.remove('dash-skeleton');
+    el.replaceChildren(failLine(el.tagName));
+    return null;
+  }
+  if (gs.some((g) => g.status !== 'ok')) return null;
+  el.classList.remove('dash-skeleton');
+  el.replaceChildren();
+  return gs.map((g) => g.data);
+}
+function makeTip(host) {
+  const t = document.createElement('div');
+  t.className = 'tip';
+  t.hidden = true;
+  host.appendChild(t);
+  return {
+    show(ev, title, lines) {
+      t.replaceChildren();
+      const a = document.createElement('div');
+      a.className = 'tip-t';
+      a.textContent = title;
+      t.appendChild(a);
+      for (const l of lines) { const d = document.createElement('div'); d.textContent = l; t.appendChild(d); }
+      t.hidden = false;
+      const r = host.getBoundingClientRect();
+      let x = ev.clientX - r.left + 12;
+      const y = ev.clientY - r.top + 14;
+      const w = t.offsetWidth;
+      if (x + w > r.width) x = Math.max(0, r.width - w - 4);
+      t.style.left = x + 'px';
+      t.style.top = y + 'px';
+    },
+    hide() { t.hidden = true; },
+  };
+}
+function svgIn(el, W, H, label) {
+  return d3.select(el).append('svg').attr('class', 'fig-svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%')
+    .attr('role', 'img').attr('aria-label', label);
+}
+const widthOf = (el, min) => Math.max(min || 300, el.clientWidth || 640);
+let gradN = 0;
+function waitLegend(svg, x, y, w) {
+  const id = 'wg' + (++gradN);
+  const defs = svg.append('defs');
+  const lg = defs.append('linearGradient').attr('id', id).attr('x1', 0).attr('x2', 1);
+  d3.range(0, 1.001, 0.1).forEach((t) => lg.append('stop').attr('offset', t).attr('stop-color', waitScale(-0.3 + t * 4)));
+  svg.append('text').attr('x', x).attr('y', y).attr('font-size', 11).attr('fill', MUTE).text('Typical time to close');
+  svg.append('rect').attr('x', x).attr('y', y + 6).attr('width', w).attr('height', 9).attr('rx', 2).attr('fill', `url(#${id})`);
+  const sx = d3.scaleLinear().domain([-0.3, 3.7]).range([x, x + w]);
+  [[1, '1 hour'], [24, '1 day'], [168, '1 week'], [720, '1 month'], [4320, '6 months']].forEach(([h, t]) => {
+    const px = sx(Math.log10(h));
+    svg.append('line').attr('x1', px).attr('x2', px).attr('y1', y + 15).attr('y2', y + 19).attr('stroke', MUTE);
+    svg.append('text').attr('x', px).attr('y', y + 31).attr('font-size', 10.5).attr('fill', MUTE).attr('text-anchor', 'middle').text(t);
+  });
+}
+
+/* generic number/word fill */
+dash.draw('val', (el) => {
+  const g = dash.data(el.dataset.source);
+  if (g.status !== 'ok') { el.textContent = '—'; return; }
+  let row = g.data[0];
+  if (el.dataset.where) {
+    const [c, v] = el.dataset.where.split('=');
+    row = g.data.find((r) => r[c] === decodeURIComponent(v));
+  }
+  if (!row) { el.textContent = '—'; return; }
+  el.classList.remove('dash-skeleton');
+  el.textContent = (FM[el.dataset.fmt] || FM.text)(row[el.dataset.field]);
+});
+
+/* ---------- hero treemap ---------- */
+const AGENCY_INFO = {
+  NYPD: ['New York City Police Department', 'noise, parking and street disorder'],
+  HPD: ['Housing Preservation and Development', 'apartment repairs, heat and hot water'],
+  DOT: ['Department of Transportation', 'streets, sidewalks and traffic signals'],
+  DSNY: ['Department of Sanitation', 'trash, recycling and street cleaning'],
+  DEP: ['Department of Environmental Protection', 'water, sewers and noise'],
+  DOB: ['Department of Buildings', 'construction and building safety'],
+  DPR: ['Department of Parks and Recreation', 'parks and street trees'],
+  DOHMH: ['Department of Health and Mental Hygiene', 'health, food safety and pests'],
+  DHS: ['Department of Homeless Services', 'homeless services'],
+  TLC: ['Taxi and Limousine Commission', 'taxis and for-hire vehicles'],
+  DCWP: ['Department of Consumer and Worker Protection', 'consumer and worker protection'],
+  EDC: ['Economic Development Corporation', 'city-owned sites and helicopter noise'],
+};
+dash.draw('hero', (el) => {
+  const d = ready(el, ['complaints']);
+  if (!d) return;
+  const items = d[0].map((r) => ({ ...pretty(r.complaint), complaint: r.complaint, requests: +r.requests, med: +r.median_hrs, nd: +r.pct_not_done_7d, nc: +r.pct_no_close_date }));
+  const byAg = d3.group(items, (i) => i.ag);
+  const root = d3.hierarchy({ children: [...byAg].map(([ag, kids]) => ({ ag, children: kids })) })
+    .sum((n) => n.requests || 0).sort((a, b) => b.value - a.value);
+  const W = widthOf(el, 300);
+  const H = W < 560 ? 480 : Math.round(Math.max(380, Math.min(W * 0.52, 540)));
+  d3.treemap().size([W, H]).paddingInner(2).paddingOuter(2).paddingTop((n) => (n.depth === 1 ? 17 : 2)).round(true)(root);
+  const svg = svgIn(el, W, H + 56, 'Treemap of complaint types sized by requests and colored by typical time to close');
+  const tip = makeTip(el);
+  for (const g of root.children) {
+    const w = g.x1 - g.x0;
+    svg.append('rect').attr('x', g.x0).attr('y', g.y0).attr('width', w).attr('height', g.y1 - g.y0).attr('rx', 4).attr('fill', '#e9ecf1');
+    if (w > 30) {
+      const info = AGENCY_INFO[g.data.ag];
+      const lab = svg.append('text').attr('x', g.x0 + 5).attr('y', g.y0 + 12.5).attr('font-size', 10.5).attr('font-weight', 700).attr('fill', MUTE).style('cursor', 'help').text(g.data.ag);
+      if (info) lab.on('pointermove', (ev) => tip.show(ev, g.data.ag + ': ' + info[0], ['Handles ' + info[1]])).on('pointerleave', tip.hide);
+    }
+  }
+  for (const n of root.leaves()) {
+    const w = n.x1 - n.x0, h = n.y1 - n.y0, it = n.data;
+    const fill = wc(it.med);
+    const gEl = svg.append('g').style('cursor', 'default');
+    gEl.append('rect').attr('x', n.x0).attr('y', n.y0).attr('width', Math.max(0, w)).attr('height', Math.max(0, h)).attr('rx', 3).attr('fill', fill);
+    if (w > 62 && h > 30) {
+      const fg = onFill(fill);
+      gEl.append('text').attr('x', n.x0 + 6).attr('y', n.y0 + 15).attr('font-size', 11).attr('font-weight', 600).attr('fill', fg).text(trunc(it.name, w - 10, 11));
+      if (h > 46) gEl.append('text').attr('x', n.x0 + 6).attr('y', n.y0 + 29).attr('font-size', 10.5).attr('fill', fg).style('opacity', 0.9).text(dur(it.med));
+    }
+    gEl.on('pointermove', (ev) => tip.show(ev, it.ag + ': ' + it.name, [nf(it.requests) + ' requests', 'Typical wait ' + dur(it.med), f1(it.nd) + '% not done in a week', f1(it.nc) + '% have no close date']))
+      .on('pointerleave', tip.hide);
+  }
+  waitLegend(svg, 2, H + 14, Math.min(340, W - 20));
+});
+
+/* ---------- volume ---------- */
+dash.draw('shareBar', (el) => {
+  const d = ready(el, ['agencies', 'headline']);
+  if (!d) return;
+  const rows = d[0].map((r) => ({ ag: r.agency, name: r.agency_name, pct: +r.pct_of_all, med: +r.median_hrs, n: +r.requests }));
+  const rest = Math.max(0, 100 - d3.sum(rows, (r) => r.pct));
+  if (rest > 0.05) rows.push({ ag: 'Other', name: 'All other agencies', pct: rest, med: NaN, n: NaN });
+  const top3 = +d[1][0].top3_agency_pct;
+  const W = widthOf(el, 300), mx = 2, bw = W - mx * 2;
+  const svg = svgIn(el, W, 168, 'Share of requests by agency');
+  const tip = makeTip(el);
+  const y0 = 40, bh = 38;
+  let acc = 0;
+  const xs = rows.map((r) => { const x = mx + (acc / 100) * bw; acc += r.pct; return x; });
+  rows.forEach((r, i) => {
+    const w = (r.pct / 100) * bw;
+    const fill = isFinite(r.med) ? wc(r.med) : GREY;
+    svg.append('rect').attr('x', xs[i]).attr('y', y0).attr('width', Math.max(0.5, w - 1.5)).attr('height', bh).attr('fill', fill).attr('rx', 2)
+      .on('pointermove', (ev) => tip.show(ev, r.name + (r.ag === 'Other' ? '' : ' (' + r.ag + ')'), [f1(r.pct) + '% of all requests', isFinite(r.med) ? 'Typical wait ' + dur(r.med) : '']))
+      .on('pointerleave', tip.hide);
+    if (i < 3 && w > 56) {
+      const fg = onFill(fill);
+      svg.append('text').attr('x', xs[i] + 6).attr('y', y0 + 16).attr('font-size', 11).attr('font-weight', 600).attr('fill', fg).attr('pointer-events', 'none').text(trunc(r.name, w - 8, 11));
+      svg.append('text').attr('x', xs[i] + 6).attr('y', y0 + 30).attr('font-size', 11).attr('fill', fg).attr('pointer-events', 'none').text(f1(r.pct) + '%');
+    }
+  });
+  const x3 = xs[3] - 1.5;
+  svg.append('path').attr('d', `M${mx},${y0 - 6} V${y0 - 12} H${x3} V${y0 - 6}`).attr('fill', 'none').attr('stroke', INK).attr('stroke-width', 1.5);
+  svg.append('text').attr('x', (mx + x3) / 2).attr('y', y0 - 18).attr('text-anchor', 'middle').attr('font-size', 12).attr('font-weight', 600).attr('fill', INK).text(f1(top3) + '% from three agencies');
+  waitLegend(svg, 2, y0 + bh + 26, Math.min(300, W - 20));
+});
+
+dash.draw('popDumbbell', (el) => {
+  const d = ready(el, ['boroughs']);
+  if (!d) return;
+  const rows = d[0].map((r) => ({ b: r.borough, pop: +r.pct_of_population, req: +r.pct_of_requests, n: +r.requests, p: +r.population }))
+    .sort((a, b) => (b.req - b.pop) - (a.req - a.pop));
+  const W = widthOf(el, 300), rowH = 36, m = { t: 34, r: 16, b: 30, l: Math.min(104, W * 0.28) };
+  const H = m.t + rows.length * rowH + m.b;
+  const svg = svgIn(el, W, H, 'Share of residents and share of requests by borough');
+  const tip = makeTip(el);
+  const x = d3.scaleLinear().domain([0, Math.ceil(d3.max(rows, (r) => Math.max(r.pop, r.req)) / 10) * 10 + 5]).range([m.l, W - m.r]);
+  const ticks = x.ticks(4);
+  ticks.forEach((t) => {
+    svg.append('line').attr('x1', x(t)).attr('x2', x(t)).attr('y1', m.t - 6).attr('y2', H - m.b).attr('stroke', RULE);
+    svg.append('text').attr('x', x(t)).attr('y', H - m.b + 16).attr('text-anchor', 'middle').attr('font-size', 11).attr('fill', MUTE).text(t + '%');
+  });
+  svg.append('circle').attr('cx', m.l + 6).attr('cy', 12).attr('r', 5).attr('fill', '#fff').attr('stroke', INK).attr('stroke-width', 2);
+  svg.append('text').attr('x', m.l + 16).attr('y', 16).attr('font-size', 11).attr('fill', INK).text('Residents');
+  svg.append('circle').attr('cx', m.l + 84).attr('cy', 12).attr('r', 5).attr('fill', INK);
+  svg.append('text').attr('x', m.l + 94).attr('y', 16).attr('font-size', 11).attr('fill', INK).text('Requests');
+  rows.forEach((r, i) => {
+    const cy = m.t + i * rowH + rowH / 2;
+    svg.append('text').attr('x', m.l - 10).attr('y', cy + 4).attr('text-anchor', 'end').attr('font-size', 12).attr('fill', INK).text(r.b);
+    svg.append('line').attr('x1', x(r.pop)).attr('x2', x(r.req)).attr('y1', cy).attr('y2', cy).attr('stroke', GREY).attr('stroke-width', 3).attr('stroke-linecap', 'round');
+    svg.append('circle').attr('cx', x(r.pop)).attr('cy', cy).attr('r', 6).attr('fill', '#fff').attr('stroke', INK).attr('stroke-width', 2);
+    svg.append('circle').attr('cx', x(r.req)).attr('cy', cy).attr('r', 6).attr('fill', INK);
+    const right = Math.max(x(r.pop), x(r.req)) + 12;
+    svg.append('text').attr('x', right).attr('y', cy + 4).attr('font-size', 11).attr('fill', MUTE).text(f1(r.req) + '% vs ' + f1(r.pop) + '%');
+    svg.append('rect').attr('x', 0).attr('y', cy - rowH / 2).attr('width', W).attr('height', rowH).attr('fill', 'transparent')
+      .on('pointermove', (ev) => tip.show(ev, r.b, [nf(r.n) + ' requests, ' + f1(r.req) + '% of the total', nf(r.p) + ' residents, ' + f1(r.pop) + '% of the total']))
+      .on('pointerleave', tip.hide);
+  });
+});
+
+/* ---------- speed ---------- */
+dash.draw('waitSlope', (el) => {
+  const d = ready(el, ['agency_shares']);
+  if (!d) return;
+  const rows = d[0].map((r) => ({ ag: r.agency, name: r.agency_name, req: +r.pct_requests, wait: +r.pct_waiting }));
+  const W = widthOf(el, 300);
+  const narrow = W < 520;
+  const lw = narrow ? 64 : 188;
+  const H = 380, m = { t: 44, b: 14 };
+  const xL = lw, xR = W - lw;
+  const y = d3.scaleLinear().domain([0, 52]).range([H - m.b, m.t]);
+  const svg = svgIn(el, W, H, 'Share of requests versus share of waiting time by agency');
+  const tip = makeTip(el);
+  svg.append('text').attr('x', xL).attr('y', 14).attr('text-anchor', narrow ? 'start' : 'middle').attr('font-size', 11.5).attr('font-weight', 600).attr('fill', INK).text(narrow ? 'Requests' : 'Share of requests');
+  svg.append('text').attr('x', xR).attr('y', 14).attr('text-anchor', narrow ? 'end' : 'middle').attr('font-size', 11.5).attr('font-weight', 600).attr('fill', INK).text(narrow ? 'Waiting' : 'Share of waiting');
+  svg.append('line').attr('x1', xL).attr('x2', xL).attr('y1', m.t - 8).attr('y2', H - m.b + 4).attr('stroke', RULE);
+  svg.append('line').attr('x1', xR).attr('x2', xR).attr('y1', m.t - 8).attr('y2', H - m.b + 4).attr('stroke', RULE);
+  const color = (r) => (r.ag === 'HPD' ? SLOW : r.ag === 'NYPD' ? FAST : GREY);
+  const left = rows.map((r) => ({ r, y: y(r.req) }));
+  const right = rows.map((r) => ({ r, y: y(r.wait) }));
+  relax(left, 14, m.t - 4, H - m.b);
+  relax(right, 14, m.t - 4, H - m.b);
+  for (const r of rows) {
+    const emph = r.ag === 'HPD' || r.ag === 'NYPD';
+    svg.append('line').attr('x1', xL).attr('y1', y(r.req)).attr('x2', xR).attr('y2', y(r.wait))
+      .attr('stroke', color(r)).attr('stroke-width', emph ? 3.5 : 1.8).attr('stroke-linecap', 'round').attr('opacity', emph ? 1 : 0.9)
+      .on('pointermove', (ev) => tip.show(ev, r.name, [f1(r.req) + '% of requests', f1(r.wait) + '% of waiting time']))
+      .on('pointerleave', tip.hide);
+    svg.append('circle').attr('cx', xL).attr('cy', y(r.req)).attr('r', emph ? 5 : 3.5).attr('fill', color(r));
+    svg.append('circle').attr('cx', xR).attr('cy', y(r.wait)).attr('r', emph ? 5 : 3.5).attr('fill', color(r));
+  }
+  for (const it of left) {
+    const r = it.r, emph = r.ag === 'HPD' || r.ag === 'NYPD';
+    svg.append('text').attr('x', xL - 10).attr('y', it.ly + 4).attr('text-anchor', 'end').attr('font-size', 11.5)
+      .attr('font-weight', emph ? 700 : 400).attr('fill', emph ? INK : MUTE).text((narrow ? r.ag : r.name) + ' ' + f1(r.req) + '%');
+  }
+  for (const it of right) {
+    const r = it.r, emph = r.ag === 'HPD' || r.ag === 'NYPD';
+    svg.append('text').attr('x', xR + 10).attr('y', it.ly + 4).attr('font-size', 11.5)
+      .attr('font-weight', emph ? 700 : 400).attr('fill', emph ? INK : MUTE).text(f1(r.wait) + '% ' + (narrow ? r.ag : r.name));
+  }
+});
+
+dash.draw('dotPlot', (el) => {
+  const d = ready(el, ['complaints', 'agencies']);
+  if (!d) return;
+  const names = new Map(d[1].map((r) => [r.agency, r.agency_name]));
+  const items = d[0].map((r) => ({ ...pretty(r.complaint), complaint: r.complaint, n: +r.requests, med: +r.median_hrs, nd: +r.pct_not_done_7d, nc: +r.pct_no_close_date }));
+  const vol = new Map();
+  for (const i of items) vol.set(i.ag, (vol.get(i.ag) || 0) + i.n);
+  const lanes = [...vol.entries()].sort((a, b) => b[1] - a[1]).map((e) => e[0]);
+  const W = widthOf(el, 300), laneH = 34;
+  const m = { t: 8, r: 18, b: 44, l: W < 520 ? 52 : 225 };
+  const H = m.t + lanes.length * laneH + m.b;
+  const x = d3.scaleLog().domain([0.2, 12000]).range([m.l, W - m.r]);
+  const rS = d3.scaleSqrt().domain([0, d3.max(items, (i) => i.n)]).range([3, 14]);
+  const svg = svgIn(el, W, H, 'Typical time to close for each complaint type, grouped by agency');
+  const tip = makeTip(el);
+  const laneY = (ag) => m.t + lanes.indexOf(ag) * laneH + laneH / 2;
+  lanes.forEach((ag, i) => {
+    if (i % 2 === 0) svg.append('rect').attr('x', 0).attr('y', m.t + i * laneH).attr('width', W).attr('height', laneH).attr('fill', '#f4f5f8').attr('rx', 4);
+    svg.append('text').attr('x', 8).attr('y', laneY(ag) + 4).attr('font-size', 11.5).attr('fill', INK).attr('font-weight', 600)
+      .text(W < 520 ? ag : trunc(names.get(ag) || ag, m.l - 14, 11.5));
+  });
+  const ticks = (W < 520 ? [[1, '1 hour'], [24, '1 day'], [168, '1 week'], [4320, '6 mo']] : [[1, '1 hour'], [24, '1 day'], [168, '1 week'], [720, '1 month'], [4320, '6 months']]);
+  ticks.forEach(([h, t]) => {
+    svg.append('line').attr('x1', x(h)).attr('x2', x(h)).attr('y1', m.t).attr('y2', H - m.b).attr('stroke', RULE).attr('stroke-dasharray', '2 3');
+    svg.append('text').attr('x', x(h)).attr('y', H - m.b + 16).attr('text-anchor', 'middle').attr('font-size', 10.5).attr('fill', MUTE).text(t);
+  });
+  const nodes = items.map((i) => ({ ...i, r: rS(i.n), x: x(i.med), y: laneY(i.ag), tx: x(i.med), ty: laneY(i.ag) }));
+  const sim = d3.forceSimulation(nodes).force('x', d3.forceX((n) => n.tx).strength(1)).force('y', d3.forceY((n) => n.ty).strength(0.25))
+    .force('c', d3.forceCollide((n) => n.r + 1.2)).stop();
+  for (let k = 0; k < 140; k++) sim.tick();
+  for (const n of nodes) n.y = Math.max(laneY(n.ag) - laneH / 2 + n.r + 1, Math.min(laneY(n.ag) + laneH / 2 - n.r - 1, n.y));
+  for (const n of nodes) {
+    svg.append('circle').attr('cx', n.x).attr('cy', n.y).attr('r', n.r).attr('fill', wc(n.med)).attr('stroke', 'rgba(27,33,48,.35)').attr('stroke-width', 0.8)
+      .on('pointermove', (ev) => tip.show(ev, n.ag + ': ' + n.name, [nf(n.n) + ' requests', 'Typical wait ' + dur(n.med), f1(n.nd) + '% not done in a week', f1(n.nc) + '% have no close date']))
+      .on('pointerleave', tip.hide);
+  }
+  const LABELS = ['NYPD - Illegal Parking', 'HPD - HEAT/HOT WATER', 'HPD - UNSANITARY CONDITION', 'DOB - Building/Use', 'DOT - Street Condition', 'EDC - Noise - Helicopter'];
+  for (const n of nodes) {
+    if (W < 520 || !LABELS.includes(n.complaint)) continue;
+    const flip = n.x > W - 150;
+    svg.append('text').attr('x', flip ? n.x - n.r - 4 : n.x + n.r + 4).attr('y', n.y - n.r * 0.2 - 4).attr('text-anchor', flip ? 'end' : 'start')
+      .attr('font-size', 10.5).attr('font-weight', 600).attr('fill', INK).attr('stroke', '#f4f5f8').attr('stroke-width', 3).attr('paint-order', 'stroke').attr('pointer-events', 'none').text(n.name);
+  }
+});
+
+const cState = { key: 'pct_of_all_waiting', dir: -1, q: '' };
+function cellBar(td, pct, color) {
+  const box = document.createElement('div');
+  box.className = 'cellbar';
+  const txt = document.createElement('em');
+  txt.style.fontStyle = 'normal';
+  txt.textContent = f1(pct) + '%';
+  const track = document.createElement('span');
+  const i = document.createElement('i');
+  i.style.width = Math.max(0, Math.min(100, pct)) + '%';
+  i.style.background = color;
+  track.appendChild(i);
+  box.append(txt, track);
+  td.appendChild(box);
+}
+function addCell(tr, text, sub) {
+  const td = document.createElement('td');
+  td.textContent = text;
+  if (sub) { const s = document.createElement('small'); s.textContent = sub; td.appendChild(s); }
+  tr.appendChild(td);
+  return td;
+}
+dash.draw('agencySpeedBody', (tb) => {
+  const d = ready(tb, ['agencies']);
+  if (!d) return;
+  for (const r of d[0]) {
+    const tr = document.createElement('tr');
+    tr.dataset.key = r.agency;
+    addCell(tr, r.agency_name, r.agency);
+    addCell(tr, nf(+r.requests));
+    addCell(tr, dur(+r.median_hrs));
+    addCell(tr, dur(+r.p90_hrs));
+    cellBar(tr.appendChild(document.createElement('td')), +r.pct_not_done_7d, SLOW);
+    addCell(tr, f1(+r.pct_zero_dur) + '%');
+    addCell(tr, dur(+r.median_excl_zero));
+    tb.appendChild(tr);
+  }
+});
+dash.draw('complaintsBody', (tb) => {
+  const d = ready(tb, ['complaints']);
+  if (!d) return;
+  let rows = d[0].map((r) => ({ complaint: r.complaint, requests: +r.requests, median_hrs: +r.median_hrs, p90_hrs: +r.p90_hrs, pct_not_done_7d: +r.pct_not_done_7d, pct_of_all_waiting: +r.pct_of_all_waiting }));
+  const q = cState.q.trim().toLowerCase();
+  if (q) rows = rows.filter((r) => r.complaint.toLowerCase().includes(q));
+  const k = cState.key;
+  rows.sort((a, b) => (k === 'complaint' ? a.complaint.localeCompare(b.complaint) : a[k] - b[k]) * cState.dir);
+  for (const r of rows) {
+    const p = pretty(r.complaint);
+    const tr = document.createElement('tr');
+    tr.dataset.key = r.complaint;
+    addCell(tr, p.name, p.ag);
+    addCell(tr, nf(r.requests));
+    addCell(tr, dur(r.median_hrs));
+    addCell(tr, dur(r.p90_hrs));
+    cellBar(tr.appendChild(document.createElement('td')), r.pct_not_done_7d, SLOW);
+    addCell(tr, f1(r.pct_of_all_waiting) + '%');
+    tb.appendChild(tr);
+  }
+  if (!rows.length) {
+    const tr = document.createElement('tr'); const td = document.createElement('td');
+    td.colSpan = 6; td.textContent = 'No complaint type matches that search.'; tr.appendChild(td); tb.appendChild(tr);
+  }
+});
+document.getElementById('complaint-search').addEventListener('input', (e) => { cState.q = e.target.value; dash.draw('complaintsBody'); });
+document.querySelectorAll('#table-complaints thead button').forEach((b) => {
+  b.addEventListener('click', () => {
+    const key = b.dataset.sort;
+    if (cState.key === key) cState.dir = -cState.dir;
+    else { cState.key = key; cState.dir = key === 'complaint' ? 1 : -1; }
+    document.querySelectorAll('#table-complaints thead th').forEach((th) => th.setAttribute('aria-sort', 'none'));
+    b.parentElement.setAttribute('aria-sort', cState.dir > 0 ? 'ascending' : 'descending');
+    dash.draw('complaintsBody');
+  });
+});
+
+/* ---------- geography ---------- */
+dash.draw('rankSlope', (el) => {
+  const d = ready(el, ['boroughs']);
+  if (!d) return;
+  const rows = d[0].map((r) => ({ b: r.borough, raw: +r.raw_median_hrs, adj: +r.adjusted_index, rr: +r.raw_rank, ar: +r.adjusted_rank }));
+  const byRaw = rows.slice().sort((a, b) => a.rr - b.rr);
+  const byAdj = rows.slice().sort((a, b) => a.ar - b.ar || a.rr - b.rr);
+  byRaw.forEach((r, i) => { r.pl = i; });
+  byAdj.forEach((r, i) => { r.pr = i; });
+  const W = widthOf(el, 300), narrow = W < 520;
+  const lwL = narrow ? 124 : 170, lwR = narrow ? 94 : 170;
+  const m = { t: 52, b: 34 }, step = 46, H = m.t + (rows.length - 1) * step + m.b;
+  const xL = lwL, xR = W - lwR;
+  const yAt = (i) => m.t + i * step;
+  const svg = svgIn(el, W, H, 'Borough rank by raw median versus mix-adjusted index');
+  const tip = makeTip(el);
+  svg.append('text').attr('x', xL).attr('y', 14).attr('text-anchor', 'middle').attr('font-size', 11.5).attr('font-weight', 600).attr('fill', INK).text(narrow ? 'Raw' : 'Raw median');
+  svg.append('text').attr('x', xR).attr('y', 14).attr('text-anchor', 'middle').attr('font-size', 11.5).attr('font-weight', 600).attr('fill', INK).text(narrow ? 'Adjusted' : 'Adjusted index');
+  svg.append('text').attr('x', xL).attr('y', 30).attr('text-anchor', 'middle').attr('font-size', 10.5).attr('fill', MUTE).text(narrow ? '' : 'slowest at top');
+  svg.append('text').attr('x', xR).attr('y', 30).attr('text-anchor', 'middle').attr('font-size', 10.5).attr('fill', MUTE).text(narrow ? '' : 'slowest at top');
+  const color = (r) => (r.b === 'Manhattan' ? FAST : r.b === 'Queens' ? SLOW : GREY);
+  svg.append('line').attr('x1', xL).attr('x2', xL).attr('y1', m.t - 14).attr('y2', yAt(rows.length - 1) + 14).attr('stroke', RULE);
+  svg.append('line').attr('x1', xR).attr('x2', xR).attr('y1', m.t - 14).attr('y2', yAt(rows.length - 1) + 14).attr('stroke', RULE);
+  for (const r of rows) {
+    const emph = r.b === 'Manhattan' || r.b === 'Queens';
+    const fragile = r.b === 'Staten Island';
+    svg.append('line').attr('x1', xL).attr('y1', yAt(r.pl)).attr('x2', xR).attr('y2', yAt(r.pr)).attr('stroke', color(r))
+      .attr('stroke-width', emph ? 4 : 2).attr('stroke-linecap', 'round').attr('stroke-dasharray', fragile ? '4 4' : null)
+      .on('pointermove', (ev) => tip.show(ev, r.b, ['Raw median ' + dur(r.raw), 'Adjusted index ' + f2(r.adj)]))
+      .on('pointerleave', tip.hide);
+    svg.append('circle').attr('cx', xL).attr('cy', yAt(r.pl)).attr('r', emph ? 6 : 4.5).attr('fill', color(r));
+    svg.append('circle').attr('cx', xR).attr('cy', yAt(r.pr)).attr('r', emph ? 6 : 4.5).attr('fill', color(r));
+    svg.append('text').attr('x', xL - 12).attr('y', yAt(r.pl) + 4).attr('text-anchor', 'end').attr('font-size', narrow ? 11 : 12)
+      .attr('font-weight', emph ? 700 : 400).attr('fill', emph ? INK : MUTE).text(r.b + '  ' + dur(r.raw));
+    svg.append('text').attr('x', xR + 12).attr('y', yAt(r.pr) + 4).attr('font-size', narrow ? 11 : 12)
+      .attr('font-weight', emph ? 700 : 400).attr('fill', emph ? INK : MUTE).text(f2(r.adj) + '  ' + (narrow && r.b === 'Staten Island' ? 'Staten Is.' : r.b) + (fragile && !narrow ? ' (uncertain)' : ''));
+  }
+});
+
+dash.draw('boroughHeat', (el) => {
+  const d = ready(el, ['borough_complaint']);
+  if (!d) return;
+  const cell = new Map(), total = new Map(), present = new Map();
+  for (const r of d[0]) {
+    cell.set(r.complaint + '|' + r.borough, { med: +r.median_hrs, ratio: +r.ratio_to_city, n: +r.requests, city: +r.city_median_hrs });
+    total.set(r.complaint, (total.get(r.complaint) || 0) + (+r.requests));
+    present.set(r.complaint, (present.get(r.complaint) || 0) + 1);
+  }
+  const rowsC = [...total.entries()].filter(([c]) => present.get(c) === BOROUGHS.length).sort((a, b) => b[1] - a[1]).slice(0, 14).map((e) => e[0]);
+  const W = widthOf(el, 320), narrow = W < 560;
+  const lw = narrow ? 126 : 240, rh = 29, m = { t: 34, r: 4, b: 58 };
+  const cw = (W - lw - m.r) / BOROUGHS.length;
+  const H = m.t + rowsC.length * rh + m.b;
+  const svg = svgIn(el, W, H, 'Median time to close by complaint type and borough, colored against the citywide median');
+  const tip = makeTip(el);
+  BOROUGHS.forEach((b, j) => {
+    svg.append('text').attr('x', lw + j * cw + cw / 2).attr('y', m.t - 12).attr('text-anchor', 'middle').attr('font-size', narrow ? 9.5 : 11.5).attr('font-weight', 600).attr('fill', INK)
+      .text(narrow ? ({ 'Staten Island': 'S. Isl.', Manhattan: 'Manh.', Brooklyn: 'Bklyn' }[b] || b) : b);
+  });
+  rowsC.forEach((c, i) => {
+    const p = pretty(c), y = m.t + i * rh;
+    svg.append('text').attr('x', lw - 10).attr('y', y + rh / 2 + 4).attr('text-anchor', 'end').attr('font-size', 11.5).attr('fill', INK).text(trunc(p.name + ' (' + p.ag + ')', lw - 16, 11.5));
+    BOROUGHS.forEach((b, j) => {
+      const v = cell.get(c + '|' + b);
+      const x = lw + j * cw;
+      if (!v) {
+        svg.append('rect').attr('x', x + 1).attr('y', y + 1).attr('width', cw - 2).attr('height', rh - 2).attr('rx', 3).attr('fill', '#eceef2');
+        return;
+      }
+      const fill = ratioScale(Math.log(v.ratio));
+      const g = svg.append('g');
+      g.append('rect').attr('x', x + 1).attr('y', y + 1).attr('width', cw - 2).attr('height', rh - 2).attr('rx', 3).attr('fill', fill);
+      g.append('text').attr('x', x + cw / 2).attr('y', y + rh / 2 + 4).attr('text-anchor', 'middle').attr('font-size', narrow ? 9.5 : 11).attr('fill', onFill(fill)).attr('pointer-events', 'none').text(narrow ? durC(v.med) : dur(v.med));
+      g.on('pointermove', (ev) => tip.show(ev, p.ag + ': ' + p.name + ', ' + b, [nf(v.n) + ' requests', 'Median ' + dur(v.med) + ' against ' + dur(v.city) + ' citywide', f2(v.ratio) + '× the citywide median']))
+        .on('pointerleave', tip.hide);
+    });
+  });
+  const id = 'rg' + (++gradN);
+  const lg = svg.append('defs').append('linearGradient').attr('id', id).attr('x1', 0).attr('x2', 1);
+  d3.range(0, 1.001, 0.1).forEach((t) => lg.append('stop').attr('offset', t).attr('stop-color', ratioScale(Math.log(0.5) + t * (Math.log(2) - Math.log(0.5)))));
+  const ly = H - 38, lx = lw, lwid = Math.min(260, W - lw - 10);
+  svg.append('rect').attr('x', lx).attr('y', ly).attr('width', lwid).attr('height', 9).attr('rx', 2).attr('fill', `url(#${id})`);
+  svg.append('text').attr('x', lx).attr('y', ly + 24).attr('font-size', 10.5).attr('fill', MUTE).text(narrow ? 'Faster' : 'Faster than citywide');
+  svg.append('text').attr('x', lx + lwid).attr('y', ly + 24).attr('text-anchor', 'end').attr('font-size', 10.5).attr('fill', MUTE).text(narrow ? 'Slower' : 'Slower than citywide');
+  svg.append('text').attr('x', lx + lwid / 2).attr('y', ly + 24).attr('text-anchor', 'middle').attr('font-size', 10.5).attr('fill', MUTE).text('Same');
+});
+
+dash.draw('boroughMixBody', (tb) => {
+  const d = ready(tb, ['boroughs']);
+  if (!d) return;
+  for (const r of d[0]) {
+    const tr = document.createElement('tr');
+    tr.dataset.key = r.borough;
+    addCell(tr, r.borough);
+    addCell(tr, f1(+r.nypd_share_pct) + '%');
+    addCell(tr, f1(+r.hpd_dob_share_pct) + '%');
+    addCell(tr, dur(+r.raw_median_hrs));
+    addCell(tr, f2(+r.adjusted_index));
+    addCell(tr, f2(+r.adjusted_index_with_zero));
+    tb.appendChild(tr);
+  }
+});
+
+/* ---------- surges ---------- */
+dash.draw('heatTimeline', (el) => {
+  const d = ready(el, ['heat_daily']);
+  if (!d) return;
+  const rows = d[0].map((r) => ({ t: new Date(r.d + 'T00:00:00Z'), vol: +r.vol_7d_avg, wait: +r.med_hrs_7d_avg }));
+  const W = widthOf(el, 300);
+  const m = { l: 50, r: 12, t: 24, b: 28 };
+  const h1 = 110, gap = 42, h2 = 100;
+  const H = m.t + h1 + gap + h2 + m.b;
+  const x = d3.scaleUtc().domain(d3.extent(rows, (r) => r.t)).range([m.l, W - m.r]);
+  const y1 = d3.scaleLinear().domain([0, d3.max(rows, (r) => r.vol) * 1.1]).nice(3).range([m.t + h1, m.t]);
+  const top2 = m.t + h1 + gap;
+  const y2 = d3.scaleLinear().domain([0, d3.max(rows, (r) => r.wait) * 1.1]).nice(3).range([top2 + h2, top2]);
+  const svg = svgIn(el, W, H, 'Heat and hot water requests per day and median wait, seven-day averages');
+  const mk = (y, fmt) => {
+    y.ticks(3).forEach((t) => {
+      svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(t)).attr('y2', y(t)).attr('stroke', RULE);
+      svg.append('text').attr('x', m.l - 8).attr('y', y(t) + 4).attr('text-anchor', 'end').attr('font-size', 11).attr('fill', MUTE).text(t === 0 ? '0' : fmt(t));
+    });
+  };
+  mk(y1, (v) => nf(v));
+  mk(y2, (v) => nf(v) + ' h');
+  svg.append('text').attr('x', m.l).attr('y', m.t - 10).attr('font-size', 11.5).attr('font-weight', 600).attr('fill', INK).text('Heat requests per day');
+  svg.append('text').attr('x', m.l).attr('y', top2 - 10).attr('font-size', 11.5).attr('font-weight', 600).attr('fill', INK).text('Median wait');
+  svg.append('path').datum(rows).attr('d', d3.area().x((r) => x(r.t)).y0(y1(0)).y1((r) => y1(r.vol))).attr('fill', GREY).attr('opacity', 0.55);
+  svg.append('path').datum(rows).attr('d', d3.line().x((r) => x(r.t)).y((r) => y1(r.vol))).attr('fill', 'none').attr('stroke', '#8b94a6').attr('stroke-width', 2).attr('stroke-linejoin', 'round');
+  svg.append('path').datum(rows).attr('d', d3.line().x((r) => x(r.t)).y((r) => y2(r.wait))).attr('fill', 'none').attr('stroke', SLOW).attr('stroke-width', 2.5).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
+  const pk = rows.reduce((a, b) => (b.vol > a.vol ? b : a));
+  const pkx = x(pk.t);
+  const anchor = pkx > W - 150 ? 'end' : pkx < m.l + 90 ? 'start' : 'middle';
+  svg.append('circle').attr('cx', pkx).attr('cy', y1(pk.vol)).attr('r', 4).attr('fill', '#5b6577');
+  svg.append('text').attr('x', pkx).attr('y', y1(pk.vol) - 9).attr('text-anchor', anchor).attr('font-size', 11).attr('font-weight', 600).attr('fill', INK).text('Peak ' + nf(Math.round(pk.vol)) + ' a day');
+  const step = W < 520 ? 3 : 2;
+  d3.utcMonth.every(step).range(x.domain()[0], x.domain()[1]).forEach((t) => {
+    svg.append('text').attr('x', x(t)).attr('y', top2 + h2 + 18).attr('text-anchor', 'middle').attr('font-size', 11).attr('fill', MUTE).text(d3.utcFormat('%b')(t));
+  });
+  const rule = svg.append('line').attr('y1', m.t).attr('y2', top2 + h2).attr('stroke', INK).attr('stroke-dasharray', '3 3').style('display', 'none');
+  const dot1 = svg.append('circle').attr('r', 4).attr('fill', '#5b6577').style('display', 'none');
+  const dot2 = svg.append('circle').attr('r', 4.5).attr('fill', SLOW).style('display', 'none');
+  const tip = makeTip(el);
+  const bis = d3.bisector((r) => r.t).center;
+  const fmtD = d3.utcFormat('%b %-d, %Y');
+  svg.append('rect').attr('x', m.l).attr('y', m.t).attr('width', W - m.l - m.r).attr('height', top2 + h2 - m.t).attr('fill', 'transparent')
+    .on('pointermove', (ev) => {
+      const bb = svg.node().getBoundingClientRect();
+      const r = rows[bis(rows, x.invert(((ev.clientX - bb.left) * W) / bb.width))];
+      rule.attr('x1', x(r.t)).attr('x2', x(r.t)).style('display', null);
+      dot1.attr('cx', x(r.t)).attr('cy', y1(r.vol)).style('display', null);
+      dot2.attr('cx', x(r.t)).attr('cy', y2(r.wait)).style('display', null);
+      tip.show(ev, fmtD(r.t), [nf(Math.round(r.vol)) + ' requests a day', 'Median wait ' + dur(r.wait)]);
+    })
+    .on('pointerleave', () => { rule.style('display', 'none'); dot1.style('display', 'none'); dot2.style('display', 'none'); tip.hide(); });
+});
+
+dash.draw('heatScatter', (el) => {
+  const d = ready(el, ['heat_daily']);
+  if (!d) return;
+  const pts = d[0].map((r) => ({ t: new Date(r.d + 'T00:00:00Z'), v: +r.vol, w: +r.med_hrs })).filter((p) => p.v > 0 && p.w > 0);
+  const W = widthOf(el, 300), H = 320, m = { t: 14, r: 16, b: 48, l: 54 };
+  const x = d3.scaleLog().domain([d3.min(pts, (p) => p.v) * 0.85, d3.max(pts, (p) => p.v) * 1.15]).range([m.l, W - m.r]);
+  const y = d3.scaleLinear().domain([0, d3.max(pts, (p) => p.w) * 1.08]).nice(4).range([H - m.b, m.t]);
+  const svg = svgIn(el, W, H, 'Each day: heat requests against that day\'s median wait');
+  const tip = makeTip(el);
+  y.ticks(4).forEach((t) => {
+    svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(t)).attr('y2', y(t)).attr('stroke', RULE);
+    svg.append('text').attr('x', m.l - 8).attr('y', y(t) + 4).attr('text-anchor', 'end').attr('font-size', 11).attr('fill', MUTE).text(t === 0 ? '0' : t + ' h');
+  });
+  [100, 300, 1000, 3000].filter((t) => t >= x.domain()[0] && t <= x.domain()[1]).forEach((t) => {
+    svg.append('line').attr('x1', x(t)).attr('x2', x(t)).attr('y1', H - m.b).attr('y2', H - m.b + 4).attr('stroke', MUTE);
+    svg.append('text').attr('x', x(t)).attr('y', H - m.b + 18).attr('text-anchor', 'middle').attr('font-size', 11).attr('fill', MUTE).text(nf(t));
+  });
+  svg.append('text').attr('x', (m.l + W - m.r) / 2).attr('y', H - 6).attr('text-anchor', 'middle').attr('font-size', 11).attr('fill', MUTE).text('Heat requests that day (log scale)');
+  svg.append('text').attr('transform', `translate(14,${(m.t + H - m.b) / 2}) rotate(-90)`).attr('text-anchor', 'middle').attr('font-size', 11).attr('fill', MUTE).text('Median wait that day');
+  const fmtD = d3.utcFormat('%b %-d');
+  for (const p of pts) {
+    svg.append('circle').attr('cx', x(p.v)).attr('cy', y(p.w)).attr('r', 3.4).attr('fill', '#7d8aa0').attr('opacity', 0.45)
+      .on('pointermove', (ev) => tip.show(ev, fmtD(p.t), [nf(p.v) + ' requests', 'Median wait ' + dur(p.w)]))
+      .on('pointerleave', tip.hide);
+  }
+  const sorted = pts.slice().sort((a, b) => a.v - b.v);
+  const bins = 8, per = Math.ceil(sorted.length / bins);
+  const trend = d3.range(bins).map((i) => sorted.slice(i * per, (i + 1) * per)).filter((g) => g.length)
+    .map((g) => ({ v: d3.median(g, (p) => p.v), w: d3.median(g, (p) => p.w) }));
+  svg.append('path').datum(trend).attr('d', d3.line().x((p) => x(p.v)).y((p) => y(p.w))).attr('fill', 'none').attr('stroke', SLOW).attr('stroke-width', 3).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
+  trend.forEach((p, i) => {
+    svg.append('circle').attr('cx', x(p.v)).attr('cy', y(p.w)).attr('r', 4.5).attr('fill', SLOW).attr('stroke', '#fff').attr('stroke-width', 1.5);
+    if (i === 0 || i === trend.length - 1) {
+      svg.append('text').attr('x', x(p.v)).attr('y', y(p.w) - 12).attr('text-anchor', 'middle').attr('font-size', 11).attr('font-weight', 600).attr('fill', INK)
+        .attr('stroke', '#fff').attr('stroke-width', 3).attr('paint-order', 'stroke').text(dur(p.w));
+    }
+  });
+});
+
+function lollipop(el, o) {
+  const W = widthOf(el, 300), rowH = o.rowH || 28;
+  const keyPos = [];
+  const keyTotal = (o.key || []).reduce((a, k) => a + 26 + k.text.length * 5.9 + 10, 0);
+  const kx0 = o.keyAtPlot && Math.min(o.labelW || 190, W * 0.42) + keyTotal < W - 4 ? Math.min(o.labelW || 190, W * 0.42) : 2;
+  let kx = kx0, ky = 12;
+  for (const k of (o.key || [])) {
+    const w = 26 + k.text.length * 5.9;
+    if (kx > kx0 && kx + w > W - 4) { kx = kx0; ky += 20; }
+    keyPos.push({ k, x: kx, y: ky });
+    kx += w + 10;
+  }
+  const m = { t: o.key ? (o.keyAtPlot && kx0 > 2 ? 30 : ky + 26) : 12, r: 54, b: 30, l: Math.min(o.labelW || 190, W * 0.42) };
+  const H = m.t + o.rows.length * rowH + m.b;
+  const svg = svgIn(el, W, H, o.aria);
+  const tip = makeTip(el);
+  const x = d3.scaleLinear().domain(o.domain).range([m.l, W - m.r]);
+  (W < 520 && o.tickValsNarrow ? o.tickValsNarrow : x.ticks(o.ticks || 5)).forEach((t) => {
+    svg.append('line').attr('x1', x(t)).attr('x2', x(t)).attr('y1', m.t - 4).attr('y2', H - m.b).attr('stroke', RULE);
+    svg.append('text').attr('x', x(t)).attr('y', H - m.b + 16).attr('text-anchor', 'middle').attr('font-size', 11).attr('fill', MUTE).text(o.tickFmt(t));
+  });
+  if (o.domain[0] < 0) svg.append('line').attr('x1', x(0)).attr('x2', x(0)).attr('y1', m.t - 4).attr('y2', H - m.b).attr('stroke', INK).attr('stroke-width', 1.5);
+  for (const kp of keyPos) {
+    svg.append('circle').attr('cx', kp.x + 5).attr('cy', kp.y).attr('r', 5).attr('fill', kp.k.color);
+    svg.append('text').attr('x', kp.x + 15).attr('y', kp.y + 4).attr('font-size', 11).attr('fill', INK).text(kp.k.text);
+  }
+  o.rows.forEach((r, i) => {
+    const cy = m.t + i * rowH + rowH / 2, c = o.color(r), x0 = x(Math.max(o.domain[0], Math.min(0, o.domain[1])));
+    svg.append('text').attr('x', m.l - 10).attr('y', cy + 4).attr('text-anchor', 'end').attr('font-size', 11.5).attr('fill', INK).text(trunc(r.label, m.l - 16, 11.5));
+    svg.append('line').attr('x1', x0).attr('x2', x(r.v)).attr('y1', cy).attr('y2', cy).attr('stroke', c).attr('stroke-width', 3).attr('stroke-linecap', 'round');
+    svg.append('circle').attr('cx', x(r.v)).attr('cy', cy).attr('r', 6).attr('fill', c);
+    const left = false, lx = r.v < 0 ? x(0) + 9 : x(r.v) + 11;
+    svg.append('text').attr('x', lx).attr('y', cy + 4).attr('text-anchor', 'start').attr('font-size', 11).attr('font-weight', 600).attr('fill', INK).text(o.valFmt(r.v));
+    svg.append('rect').attr('x', 0).attr('y', cy - rowH / 2).attr('width', W).attr('height', rowH).attr('fill', 'transparent')
+      .on('pointermove', (ev) => tip.show(ev, r.label, r.tip))
+      .on('pointerleave', tip.hide);
+  });
+}
+
+dash.draw('surgeLollipop', (el) => {
+  const d = ready(el, ['surge']);
+  if (!d) return;
+  const rows = d[0].map((r) => { const p = pretty(r.complaint); return { label: p.name + ' (' + p.ag + ')', v: +r.spearman, tip: ['Rank correlation ' + d3.format('+.2f')(+r.spearman), nf(+r.days) + ' days', 'Typical day ' + nf(+r.median_daily_vol) + ' requests, peak ' + nf(+r.peak_daily_vol)] }; })
+    .sort((a, b) => b.v - a.v);
+  lollipop(el, {
+    rows, domain: [-0.4, 0.6], ticks: 5, tickValsNarrow: [-0.4, 0, 0.4], tickFmt: (t) => d3.format('+.1f')(t).replace('+0.0', '0').replace('-0.0', '0'), valFmt: (v) => d3.format('+.2f')(v),
+    color: (r) => (r.v >= 0.2 ? SLOW : r.v <= -0.2 ? FAST : '#8b94a6'), aria: 'Rank correlation between daily volume and daily median wait by complaint type', labelW: 255,
+    key: [{ color: SLOW, text: 'Longer waits (0.2 or more)' }, { color: '#8b94a6', text: 'Little link' }, { color: FAST, text: 'Shorter waits (−0.2 or less)' }],
+  });
+});
+
+/* ---------- open requests ---------- */
+dash.draw('paretoOpen', (el) => {
+  const d = ready(el, ['open_complaint']);
+  if (!d) return;
+  const HIGH = 30;
+  const rows = d[0].map((r) => ({ ...pretty(r.complaint), requests: +r.requests, open: +r.still_open, pct: +r.pct_still_open, share: +r.pct_of_backlog, cum: +r.cumulative_pct }));
+  const W = widthOf(el, 300), narrow = W < 560;
+  const rowH = 38, m = { t: W < 640 ? 78 : 58, r: 16, b: 14, l: Math.min(210, W * 0.34) };
+  const H = m.t + rows.length * rowH + m.b;
+  const bw = W - m.l - m.r;
+  const xb = d3.scaleLinear().domain([0, d3.max(rows, (r) => r.open)]).range([m.l, m.l + bw - 60]);
+  const svg = svgIn(el, W, H, 'Requests still open by complaint type, ');
+  const tip = makeTip(el);
+  const k1 = 'At least ' + HIGH + '% of that complaint never closes', k2 = 'A small share of a large complaint';
+  const w1 = 26 + k1.length * 5.9, w2 = 26 + k2.length * 5.9, stack = m.l + w1 + w2 + 10 > W - 4, kx = stack ? 2 : m.l;
+  svg.append('circle').attr('cx', kx + 5).attr('cy', 12).attr('r', 5).attr('fill', SLOW);
+  svg.append('text').attr('x', kx + 15).attr('y', 16).attr('font-size', 11).attr('fill', INK).text(k1);
+  svg.append('circle').attr('cx', stack ? kx + 5 : kx + w1 + 15).attr('cy', stack ? 32 : 12).attr('r', 5).attr('fill', '#8b94a6');
+  svg.append('text').attr('x', stack ? kx + 15 : kx + w1 + 25).attr('y', stack ? 36 : 16).attr('font-size', 11).attr('fill', INK).text(k2);
+  svg.append('text').attr('x', m.l).attr('y', m.t - 8).attr('font-size', 11.5).attr('font-weight', 600).attr('fill', INK).text('Requests still open');
+  rows.forEach((r, i) => {
+    const cy = m.t + i * rowH + rowH / 2;
+    const c = r.pct >= HIGH ? SLOW : '#8b94a6';
+    svg.append('text').attr('x', m.l - 10).attr('y', cy - 1).attr('text-anchor', 'end').attr('font-size', 12).attr('fill', INK).text(trunc(r.name, m.l - 16, 12));
+    svg.append('text').attr('x', m.l - 10).attr('y', cy + 12).attr('text-anchor', 'end').attr('font-size', 10.5).attr('fill', MUTE).text(narrow ? r.ag + ' · ' + f1(r.pct) + '%' : r.ag + ', ' + f1(r.pct) + '% of its requests');
+    svg.append('rect').attr('x', m.l).attr('y', cy - 9).attr('width', Math.max(2, xb(r.open) - m.l)).attr('height', 18).attr('rx', 3).attr('fill', c);
+    svg.append('text').attr('x', xb(r.open) + 6).attr('y', cy + 4).attr('font-size', 11).attr('font-weight', 600).attr('fill', INK).text(nf(r.open));
+    svg.append('rect').attr('x', 0).attr('y', cy - rowH / 2).attr('width', W).attr('height', rowH).attr('fill', 'transparent')
+      .on('pointermove', (ev) => tip.show(ev, r.ag + ': ' + r.name, [nf(r.open) + ' of ' + nf(r.requests) + ' requests still open', f1(r.share) + '% of the whole backlog']))
+      .on('pointerleave', tip.hide);
+  });
+});
+
+dash.draw('openAgencyLollipop', (el) => {
+  const d = ready(el, ['open_agency']);
+  if (!d) return;
+  const FLAG = 10;
+  const rows = d[0].map((r) => ({ label: r.agency, v: +r.pct_still_open, tip: [nf(+r.still_open) + ' of ' + nf(+r.requests) + ' requests have no close date'] }))
+    .sort((a, b) => b.v - a.v);
+  lollipop(el, {
+    rows, domain: [0, 100], ticks: 5, tickFmt: (t) => t + '%', valFmt: (v) => f1(v) + '%', color: (r) => (r.v >= FLAG ? SLOW : '#8b94a6'),
+    aria: 'Share of requests still open by agency', labelW: 90, rowH: 26, keyAtPlot: true,
+    key: [{ color: SLOW, text: 'At least ' + FLAG + '% still open' }, { color: '#8b94a6', text: 'Less than that' }],
+  });
+});
+
+/* ---------- navigation ---------- */
+document.querySelectorAll('[data-go]').forEach((a) => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.getElementById(a.dataset.go);
+    if (target) { target.scrollIntoView(); dash.setLink(target.id); }
+  });
+});
+
+dash.start();
+</script>
+</body>
+</html>

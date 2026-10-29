@@ -22,7 +22,7 @@ spd as (
     round(median(hrs) filter (where not zero_dur),1) median_excl_zero
   from clean where in_cohort_90d group by agency)
 select v.agency,
-  case v.agency when 'NYPD' then 'Police' when 'HPD' then 'Housing Preservation' when 'DSNY' then 'Sanitation'
+  case v.agency when 'NYPD' then 'Police' when 'HPD' then 'Housing' when 'DSNY' then 'Sanitation'
     when 'DOT' then 'Transportation' when 'DEP' then 'Environmental Protection' when 'DPR' then 'Parks and Recreation'
     when 'DOB' then 'Buildings' when 'DOHMH' then 'Health and Mental Hygiene' when 'DHS' then 'Homeless Services'
     when 'TLC' then 'Taxi and Limousine' when 'DCWP' then 'Consumer and Worker Protection'

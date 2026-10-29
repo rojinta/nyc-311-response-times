@@ -51,6 +51,7 @@ python3 validate.py                # independent pandas check
 
 | Path | Contents |
 |---|---|
+| `index.html`, `vendor/` | The dashboard page (open `index.html` through a web server, or publish it with GitHub Pages) and the d3 library it uses |
 | `sql/` | Six SQL files, one per question: cleaning, volume, speed, geography, demand, never closed |
 | `build.py` | Loads the raw files into DuckDB and runs the SQL |
 | `export_dashboard_data.py` | Builds the small CSVs behind the dashboard |
