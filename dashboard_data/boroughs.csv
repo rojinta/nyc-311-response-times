@@ -1,0 +1,6 @@
+borough,population,requests,requests_per_resident,pct_of_requests,pct_of_population,raw_median_hrs,adjusted_index,adjusted_index_with_zero,raw_rank,adjusted_rank,nypd_share_pct,hpd_dob_share_pct
+Bronx,1406332,850305,0.605,21.5,16.4,11.5,1.06,1.03,3,1,45.8,39.1
+Brooklyn,2653963,1211446,0.456,30.6,30.9,9.9,1.05,1.06,4,2,46.5,26.5
+Queens,2358182,966980,0.41,24.4,27.5,5.2,1.05,1.06,5,2,52.1,16.0
+Manhattan,1664862,769068,0.462,19.4,19.4,16.6,0.93,0.92,1,4,37.1,31.7
+Staten Island,501290,161110,0.321,4.1,5.8,14.7,0.87,1.02,2,5,32.5,12.0

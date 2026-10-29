@@ -1,0 +1,5 @@
+vol_quartile,label,days,avg_daily_requests,median_wait_hrs
+1,Quietest quarter,76,143.0,31.6
+2,Second quarter,76,505.0,29.8
+3,Third quarter,76,1231.0,37.4
+4,Busiest quarter,76,2581.0,47.4

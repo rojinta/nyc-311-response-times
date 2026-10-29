@@ -1,0 +1,6 @@
+borough,requests,raw_median_hrs,adjusted_index,covered_requests,raw_rank,adjusted_rank
+BRONX,700423,11.5,1.06,692977,3,1
+BROOKLYN,958925,9.9,1.05,946448,4,2
+QUEENS,759436,5.2,1.05,748546,5,2
+MANHATTAN,603268,16.6,0.93,594122,1,4
+STATEN ISLAND,128659,14.7,0.87,121861,2,5

@@ -1,0 +1,13 @@
+complaint,days,spearman,median_daily_vol,peak_daily_vol
+HPD - HEAT/HOT WATER,304,0.42,925.0,5644
+NYPD - Noise - Street/Sidewalk,304,0.29,331.0,2352
+NYPD - Blocked Driveway,304,0.28,520.0,1072
+NYPD - Illegal Parking,304,0.25,1688.0,2218
+NYPD - Abandoned Vehicle,304,0.23,193.0,327
+HPD - PAINT/PLASTER,304,0.09,199.0,358
+HPD - PLUMBING,304,0.04,228.0,921
+NYPD - Noise - Residential,304,-0.01,963.0,3715
+DOT - Street Condition,304,-0.17,229.0,1336
+HPD - UNSANITARY CONDITION,304,-0.18,374.0,550
+DEP - Water System,301,-0.23,178.0,3029
+DSNY - Dirty Condition,304,-0.24,171.0,550

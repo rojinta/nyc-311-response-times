@@ -1,0 +1,2 @@
+total_requests,window_dates,window_label,top3_agency_pct,nypd_median_hrs,hpd_median_hrs,hpd_request_share_pct,hpd_wait_share_pct,backlog_6m,backlog_top10_pct,no_close_total,same_second_closures,dropped_impossible,heat_busy_vs_quiet_pct,street_bronx_vs_queens_x,water_bronx_vs_queens_x
+3962807,2025-10-01 to 2026-09-30,Oct 2025 to Sep 2026,75.5,1.3,82.6,24.0,48.3,45311,78.6,139795,65910,1093,50.0,2.2,3.7

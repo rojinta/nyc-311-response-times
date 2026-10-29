@@ -1,0 +1,395 @@
+borough,complaint,requests,median_hrs,city_median_hrs,ratio_to_city
+Brooklyn,DCWP - Consumer Complaint,4808,673.4,471.5,1.43
+Queens,DCWP - Consumer Complaint,3891,615.7,471.5,1.31
+Manhattan,DCWP - Consumer Complaint,4559,328.7,471.5,0.7
+Bronx,DCWP - Consumer Complaint,2639,244.2,471.5,0.52
+Staten Island,DCWP - Consumer Complaint,508,219.2,471.5,0.46
+Brooklyn,DEP - Air Quality,1758,64.5,52.1,1.24
+Manhattan,DEP - Air Quality,3182,62.7,52.1,1.2
+Bronx,DEP - Air Quality,576,62.7,52.1,1.2
+Queens,DEP - Air Quality,1382,43.4,52.1,0.83
+Staten Island,DEP - Air Quality,357,31.0,52.1,0.59
+Queens,DEP - Lead,3280,38.4,35.9,1.07
+Manhattan,DEP - Lead,2380,36.5,35.9,1.02
+Brooklyn,DEP - Lead,4954,35.7,35.9,1.0
+Staten Island,DEP - Lead,554,32.6,35.9,0.91
+Bronx,DEP - Lead,918,25.5,35.9,0.71
+Manhattan,DEP - Noise,18240,76.8,70.2,1.09
+Bronx,DEP - Noise,5076,74.2,70.2,1.06
+Brooklyn,DEP - Noise,15576,69.0,70.2,0.98
+Staten Island,DEP - Noise,1583,67.8,70.2,0.97
+Queens,DEP - Noise,8955,50.6,70.2,0.72
+Manhattan,DEP - Sewer,1671,10.4,6.3,1.67
+Queens,DEP - Sewer,10882,8.4,6.3,1.34
+Brooklyn,DEP - Sewer,7500,5.9,6.3,0.94
+Staten Island,DEP - Sewer,2055,4.6,6.3,0.74
+Bronx,DEP - Sewer,2137,2.7,6.3,0.43
+Manhattan,DEP - Water Conservation,431,52.8,14.1,3.74
+Brooklyn,DEP - Water Conservation,1519,28.2,14.1,1.99
+Staten Island,DEP - Water Conservation,690,13.9,14.1,0.99
+Bronx,DEP - Water Conservation,1036,6.2,14.1,0.44
+Queens,DEP - Water Conservation,1983,1.9,14.1,0.13
+Queens,DEP - Water Maintenance,745,437.4,107.9,4.05
+Brooklyn,DEP - Water Maintenance,1343,56.7,107.9,0.53
+Bronx,DEP - Water Maintenance,385,41.0,107.9,0.38
+Bronx,DEP - Water System,10211,19.3,9.2,2.1
+Brooklyn,DEP - Water System,14477,11.2,9.2,1.21
+Staten Island,DEP - Water System,5310,9.5,9.2,1.03
+Manhattan,DEP - Water System,5745,6.7,9.2,0.73
+Queens,DEP - Water System,16599,5.2,9.2,0.57
+Manhattan,DHS - Encampment,8094,36.2,39.4,0.92
+Brooklyn,DHS - Encampment,907,27.1,39.4,0.69
+Queens,DHS - Encampment,561,24.8,39.4,0.63
+Brooklyn,DHS - Homeless Person Assistance,5453,6.1,5.3,1.14
+Manhattan,DHS - Homeless Person Assistance,16583,5.6,5.3,1.05
+Queens,DHS - Homeless Person Assistance,3047,4.4,5.3,0.82
+Bronx,DHS - Homeless Person Assistance,1735,3.7,5.3,0.7
+Queens,DOB - Boilers,544,1154.3,1046.9,1.1
+Bronx,DOB - Boilers,891,1046.9,1046.9,1.0
+Brooklyn,DOB - Boilers,1006,1043.6,1046.9,1.0
+Manhattan,DOB - Boilers,1131,997.3,1046.9,0.95
+Brooklyn,DOB - Building/Use,4885,1416.0,1211.0,1.17
+Staten Island,DOB - Building/Use,1147,1383.5,1211.0,1.14
+Bronx,DOB - Building/Use,1986,1375.5,1211.0,1.14
+Queens,DOB - Building/Use,9535,1184.6,1211.0,0.98
+Manhattan,DOB - Building/Use,1661,656.5,1211.0,0.54
+Brooklyn,DOB - Electrical,573,110.7,107.6,1.03
+Queens,DOB - Electrical,582,107.4,107.6,1.0
+Manhattan,DOB - Electrical,552,102.9,107.6,0.96
+Queens,DOB - Elevator,2626,220.1,154.1,1.43
+Manhattan,DOB - Elevator,4863,180.9,154.1,1.17
+Brooklyn,DOB - Elevator,5232,172.6,154.1,1.12
+Bronx,DOB - Elevator,7799,119.1,154.1,0.77
+Manhattan,DOB - Emergency Response Team (ERT),777,277.1,220.6,1.26
+Queens,DOB - Emergency Response Team (ERT),459,198.3,220.6,0.9
+Brooklyn,DOB - Emergency Response Team (ERT),1165,198.3,220.6,0.9
+Staten Island,DOB - General Construction/Plumbing,1731,224.9,106.2,2.12
+Brooklyn,DOB - General Construction/Plumbing,11198,148.2,106.2,1.4
+Queens,DOB - General Construction/Plumbing,6541,129.8,106.2,1.22
+Bronx,DOB - General Construction/Plumbing,3196,58.9,106.2,0.55
+Manhattan,DOB - General Construction/Plumbing,4810,55.9,106.2,0.53
+Brooklyn,DOB - Plumbing,1000,1133.9,850.0,1.33
+Bronx,DOB - Plumbing,386,1038.0,850.0,1.22
+Queens,DOB - Plumbing,743,829.9,850.0,0.98
+Manhattan,DOB - Plumbing,562,532.8,850.0,0.63
+Manhattan,DOB - Real Time Enforcement,738,28.8,28.1,1.03
+Brooklyn,DOB - Real Time Enforcement,1632,28.0,28.1,1.0
+Queens,DOB - Real Time Enforcement,463,25.2,28.1,0.9
+Brooklyn,DOB - Special Projects Inspection Team (SPIT),833,994.5,851.9,1.17
+Manhattan,DOB - Special Projects Inspection Team (SPIT),998,839.9,851.9,0.99
+Queens,DOB - Special Projects Inspection Team (SPIT),706,719.1,851.9,0.84
+Staten Island,DOHMH - Food Establishment,345,1440.2,1440.2,1.0
+Bronx,DOHMH - Food Establishment,1095,1440.2,1440.2,1.0
+Brooklyn,DOHMH - Food Establishment,3302,1440.2,1440.2,1.0
+Queens,DOHMH - Food Establishment,2502,1440.2,1440.2,1.0
+Manhattan,DOHMH - Food Establishment,4122,1440.2,1440.2,1.0
+Queens,DOHMH - Food Poisoning,550,298.3,284.4,1.05
+Manhattan,DOHMH - Food Poisoning,986,275.4,284.4,0.97
+Brooklyn,DOHMH - Food Poisoning,658,249.3,284.4,0.88
+Queens,DOHMH - Indoor Air Quality,1671,27.6,23.6,1.17
+Manhattan,DOHMH - Indoor Air Quality,2320,25.1,23.6,1.06
+Bronx,DOHMH - Indoor Air Quality,1774,22.8,23.6,0.96
+Brooklyn,DOHMH - Indoor Air Quality,2706,21.8,23.6,0.92
+Manhattan,DOHMH - Mobile Food Vendor,1083,1440.2,1440.2,1.0
+Brooklyn,DOHMH - Mobile Food Vendor,466,1440.2,1440.2,1.0
+Queens,DOHMH - Mobile Food Vendor,627,1440.2,1440.2,1.0
+Staten Island,DOHMH - Rodent,428,310.3,172.8,1.8
+Queens,DOHMH - Rodent,2357,267.3,172.8,1.55
+Brooklyn,DOHMH - Rodent,4671,192.8,172.8,1.12
+Bronx,DOHMH - Rodent,1908,129.6,172.8,0.75
+Manhattan,DOHMH - Rodent,3247,91.4,172.8,0.53
+Manhattan,DOHMH - Smoking or Vaping,1817,1439.3,1414.2,1.02
+Queens,DOHMH - Smoking or Vaping,1201,1439.3,1414.2,1.02
+Bronx,DOHMH - Smoking or Vaping,1361,1439.2,1414.2,1.02
+Brooklyn,DOHMH - Smoking or Vaping,2304,1353.4,1414.2,0.96
+Staten Island,DOHMH - Smoking or Vaping,385,933.3,1414.2,0.66
+Manhattan,DOT - Broken Parking Meter,948,84.6,71.6,1.18
+Queens,DOT - Broken Parking Meter,587,70.3,71.6,0.98
+Brooklyn,DOT - Broken Parking Meter,455,66.6,71.6,0.93
+Queens,DOT - Curb Condition,2676,426.1,361.7,1.18
+Bronx,DOT - Curb Condition,461,362.8,361.7,1.0
+Brooklyn,DOT - Curb Condition,2725,336.6,361.7,0.93
+Manhattan,DOT - Curb Condition,1010,285.2,361.7,0.79
+Queens,DOT - Highway Condition,3027,113.4,82.7,1.37
+Manhattan,DOT - Highway Condition,493,65.5,82.7,0.79
+Brooklyn,DOT - Highway Condition,511,58.2,82.7,0.7
+Staten Island,DOT - Highway Condition,340,38.5,82.7,0.47
+Bronx,DOT - Highway Condition,598,19.9,82.7,0.24
+Brooklyn,DOT - Outdoor Dining,518,224.2,211.7,1.06
+Manhattan,DOT - Outdoor Dining,1754,210.9,211.7,1.0
+Bronx,DOT - Sidewalk Condition,2339,186.0,169.8,1.1
+Manhattan,DOT - Sidewalk Condition,3680,170.9,169.8,1.01
+Staten Island,DOT - Sidewalk Condition,1422,169.4,169.8,1.0
+Brooklyn,DOT - Sidewalk Condition,7402,169.2,169.8,1.0
+Queens,DOT - Sidewalk Condition,6241,168.5,169.8,0.99
+Bronx,DOT - Street Condition,8251,82.4,49.7,1.66
+Brooklyn,DOT - Street Condition,20064,62.9,49.7,1.26
+Manhattan,DOT - Street Condition,12388,51.5,49.7,1.04
+Staten Island,DOT - Street Condition,7124,39.3,49.7,0.79
+Queens,DOT - Street Condition,32185,38.0,49.7,0.76
+Staten Island,DOT - Street Light Condition,3938,239.2,236.8,1.01
+Brooklyn,DOT - Street Light Condition,6476,239.2,236.8,1.01
+Queens,DOT - Street Light Condition,6551,237.7,236.8,1.0
+Bronx,DOT - Street Light Condition,4677,209.3,236.8,0.88
+Manhattan,DOT - Street Light Condition,4279,141.7,236.8,0.6
+Queens,DOT - Street Sign - Damaged,1711,151.9,118.9,1.28
+Bronx,DOT - Street Sign - Damaged,453,149.8,118.9,1.26
+Manhattan,DOT - Street Sign - Damaged,680,103.9,118.9,0.87
+Staten Island,DOT - Street Sign - Damaged,418,99.6,118.9,0.84
+Brooklyn,DOT - Street Sign - Damaged,1149,67.7,118.9,0.57
+Queens,DOT - Street Sign - Dangling,1320,198.5,144.8,1.37
+Bronx,DOT - Street Sign - Dangling,427,147.2,144.8,1.02
+Staten Island,DOT - Street Sign - Dangling,349,110.1,144.8,0.76
+Manhattan,DOT - Street Sign - Dangling,519,106.8,144.8,0.74
+Brooklyn,DOT - Street Sign - Dangling,866,92.1,144.8,0.64
+Manhattan,DOT - Street Sign - Missing,406,145.0,113.6,1.28
+Queens,DOT - Street Sign - Missing,742,144.3,113.6,1.27
+Bronx,DOT - Street Sign - Missing,405,136.7,113.6,1.2
+Brooklyn,DOT - Street Sign - Missing,975,72.4,113.6,0.64
+Queens,DOT - Traffic Signal Condition,14426,7.5,3.1,2.39
+Manhattan,DOT - Traffic Signal Condition,9270,2.7,3.1,0.85
+Staten Island,DOT - Traffic Signal Condition,2457,2.6,3.1,0.81
+Bronx,DOT - Traffic Signal Condition,4949,2.5,3.1,0.8
+Brooklyn,DOT - Traffic Signal Condition,12324,2.2,3.1,0.69
+Brooklyn,DPR - Animal in a Park,1905,1.6,1.4,1.11
+Manhattan,DPR - Animal in a Park,1589,1.4,1.4,0.97
+Queens,DPR - Animal in a Park,733,1.4,1.4,0.96
+Bronx,DPR - Animal in a Park,397,1.0,1.4,0.71
+Brooklyn,DPR - Damaged Tree,10639,90.6,67.0,1.35
+Manhattan,DPR - Damaged Tree,2253,69.0,67.0,1.03
+Queens,DPR - Damaged Tree,10695,67.4,67.0,1.01
+Staten Island,DPR - Damaged Tree,4001,44.4,67.0,0.66
+Bronx,DPR - Damaged Tree,2276,39.3,67.0,0.59
+Bronx,DPR - Dead/Dying Tree,470,656.2,379.8,1.73
+Manhattan,DPR - Dead/Dying Tree,623,618.2,379.8,1.63
+Queens,DPR - Dead/Dying Tree,2251,388.5,379.8,1.02
+Brooklyn,DPR - Dead/Dying Tree,1936,289.6,379.8,0.76
+Staten Island,DPR - Dead/Dying Tree,907,243.1,379.8,0.64
+Bronx,DPR - Illegal Tree Damage,421,503.6,275.2,1.83
+Manhattan,DPR - Illegal Tree Damage,640,316.4,275.2,1.15
+Queens,DPR - Illegal Tree Damage,793,305.4,275.2,1.11
+Brooklyn,DPR - Illegal Tree Damage,1649,236.3,275.2,0.86
+Staten Island,DPR - Illegal Tree Damage,332,91.4,275.2,0.33
+Queens,DPR - Maintenance or Facility,3559,628.2,280.8,2.24
+Brooklyn,DPR - Maintenance or Facility,7302,381.8,280.8,1.36
+Bronx,DPR - Maintenance or Facility,2663,170.1,280.8,0.61
+Manhattan,DPR - Maintenance or Facility,5583,169.5,280.8,0.6
+Staten Island,DPR - Maintenance or Facility,676,40.2,280.8,0.14
+Bronx,DPR - Overgrown Tree/Branches,1056,1130.7,213.8,5.29
+Manhattan,DPR - Overgrown Tree/Branches,405,446.6,213.8,2.09
+Brooklyn,DPR - Overgrown Tree/Branches,1111,318.0,213.8,1.49
+Queens,DPR - Overgrown Tree/Branches,2133,117.8,213.8,0.55
+Staten Island,DPR - Overgrown Tree/Branches,2065,96.2,213.8,0.45
+Manhattan,DPR - Violation of Park Rules,1508,1.1,1.0,1.13
+Brooklyn,DPR - Violation of Park Rules,705,0.9,1.0,0.98
+Queens,DPR - Violation of Park Rules,747,0.9,1.0,0.95
+Bronx,DPR - Violation of Park Rules,657,0.8,1.0,0.85
+Staten Island,DSNY - Dead Animal,1226,52.8,45.9,1.15
+Bronx,DSNY - Dead Animal,985,52.3,45.9,1.14
+Manhattan,DSNY - Dead Animal,664,46.3,45.9,1.01
+Brooklyn,DSNY - Dead Animal,3026,45.4,45.9,0.99
+Queens,DSNY - Dead Animal,2705,39.1,45.9,0.85
+Brooklyn,DSNY - Derelict Vehicles,9254,25.2,21.4,1.18
+Staten Island,DSNY - Derelict Vehicles,1387,24.7,21.4,1.16
+Manhattan,DSNY - Derelict Vehicles,1612,23.0,21.4,1.08
+Bronx,DSNY - Derelict Vehicles,6678,19.5,21.4,0.91
+Queens,DSNY - Derelict Vehicles,11021,19.5,21.4,0.91
+Brooklyn,DSNY - Dirty Condition,18704,28.7,26.0,1.1
+Staten Island,DSNY - Dirty Condition,2923,28.4,26.0,1.09
+Bronx,DSNY - Dirty Condition,8758,25.8,26.0,0.99
+Queens,DSNY - Dirty Condition,12825,25.1,26.0,0.96
+Manhattan,DSNY - Dirty Condition,10335,23.0,26.0,0.88
+Queens,DSNY - Graffiti,1810,371.7,244.0,1.52
+Brooklyn,DSNY - Graffiti,6428,278.4,244.0,1.14
+Bronx,DSNY - Graffiti,1439,181.1,244.0,0.74
+Manhattan,DSNY - Graffiti,3362,158.7,244.0,0.65
+Bronx,DSNY - Illegal Dumping,4786,71.9,55.8,1.29
+Brooklyn,DSNY - Illegal Dumping,9909,69.2,55.8,1.24
+Staten Island,DSNY - Illegal Dumping,1693,68.7,55.8,1.23
+Manhattan,DSNY - Illegal Dumping,3813,49.7,55.8,0.89
+Queens,DSNY - Illegal Dumping,8776,48.3,55.8,0.87
+Manhattan,DSNY - Illegal Posting,415,87.6,68.3,1.28
+Staten Island,DSNY - Illegal Posting,1163,74.7,68.3,1.09
+Queens,DSNY - Illegal Posting,1880,64.3,68.3,0.94
+Brooklyn,DSNY - Illegal Posting,943,52.8,68.3,0.77
+Bronx,DSNY - Litter Basket Request,347,74.9,68.5,1.09
+Brooklyn,DSNY - Litter Basket Request,1118,68.6,68.5,1.0
+Manhattan,DSNY - Litter Basket Request,948,68.2,68.5,1.0
+Queens,DSNY - Litter Basket Request,528,53.7,68.5,0.78
+Staten Island,DSNY - Missed Collection,4315,63.1,51.2,1.23
+Bronx,DSNY - Missed Collection,3137,55.6,51.2,1.09
+Brooklyn,DSNY - Missed Collection,9601,51.7,51.2,1.01
+Manhattan,DSNY - Missed Collection,2863,50.7,51.2,0.99
+Queens,DSNY - Missed Collection,8621,44.9,51.2,0.88
+Brooklyn,DSNY - Obstruction,4204,46.0,28.5,1.61
+Staten Island,DSNY - Obstruction,1529,29.6,28.5,1.04
+Bronx,DSNY - Obstruction,1555,29.4,28.5,1.03
+Manhattan,DSNY - Obstruction,3343,28.6,28.5,1.0
+Queens,DSNY - Obstruction,5777,24.5,28.5,0.86
+Brooklyn,DSNY - Residential Disposal Complaint,4202,50.2,29.3,1.71
+Manhattan,DSNY - Residential Disposal Complaint,2201,26.5,29.3,0.91
+Bronx,DSNY - Residential Disposal Complaint,1139,26.1,29.3,0.89
+Staten Island,DSNY - Residential Disposal Complaint,814,26.0,29.3,0.89
+Queens,DSNY - Residential Disposal Complaint,2430,25.5,29.3,0.87
+Bronx,DSNY - Sanitation Worker or Vehicle Complaint,350,105.2,93.8,1.12
+Brooklyn,DSNY - Sanitation Worker or Vehicle Complaint,849,98.2,93.8,1.05
+Staten Island,DSNY - Sanitation Worker or Vehicle Complaint,329,93.3,93.8,0.99
+Queens,DSNY - Sanitation Worker or Vehicle Complaint,796,92.3,93.8,0.98
+Manhattan,DSNY - Sanitation Worker or Vehicle Complaint,377,72.9,93.8,0.78
+Brooklyn,DSNY - Snow or Ice,19357,81.8,52.6,1.56
+Queens,DSNY - Snow or Ice,18016,56.0,52.6,1.07
+Bronx,DSNY - Snow or Ice,6477,51.9,52.6,0.99
+Manhattan,DSNY - Snow or Ice,4745,51.1,52.6,0.97
+Staten Island,DSNY - Snow or Ice,15227,0.5,52.6,0.01
+Bronx,DSNY - Street Sweeping Complaint,1089,87.3,58.9,1.48
+Manhattan,DSNY - Street Sweeping Complaint,742,72.0,58.9,1.22
+Brooklyn,DSNY - Street Sweeping Complaint,3785,52.8,58.9,0.9
+Queens,DSNY - Street Sweeping Complaint,945,52.6,58.9,0.89
+Queens,DSNY - Vendor Enforcement,2438,0.3,0.3,1.03
+Manhattan,DSNY - Vendor Enforcement,12242,0.3,0.3,1.0
+Brooklyn,DSNY - Vendor Enforcement,2903,0.3,0.3,1.0
+Bronx,DSNY - Vendor Enforcement,1820,0.3,0.3,0.96
+Manhattan,HPD - APPLIANCE,3917,497.9,396.0,1.26
+Bronx,HPD - APPLIANCE,7596,383.5,396.0,0.97
+Queens,HPD - APPLIANCE,2455,382.8,396.0,0.97
+Brooklyn,HPD - APPLIANCE,5905,368.4,396.0,0.93
+Staten Island,HPD - APPLIANCE,398,282.3,396.0,0.71
+Manhattan,HPD - DOOR/WINDOW,9632,376.1,338.7,1.11
+Brooklyn,HPD - DOOR/WINDOW,13641,336.2,338.7,0.99
+Queens,HPD - DOOR/WINDOW,5091,332.4,338.7,0.98
+Bronx,HPD - DOOR/WINDOW,14278,327.2,338.7,0.97
+Staten Island,HPD - DOOR/WINDOW,729,212.3,338.7,0.63
+Manhattan,HPD - ELECTRIC,5718,272.4,191.0,1.43
+Bronx,HPD - ELECTRIC,9038,193.8,191.0,1.01
+Brooklyn,HPD - ELECTRIC,9492,169.2,191.0,0.89
+Queens,HPD - ELECTRIC,3864,152.2,191.0,0.8
+Staten Island,HPD - ELECTRIC,664,136.9,191.0,0.72
+Manhattan,HPD - FLOORING/STAIRS,5623,336.3,306.1,1.1
+Bronx,HPD - FLOORING/STAIRS,8983,297.8,306.1,0.97
+Brooklyn,HPD - FLOORING/STAIRS,7399,297.0,306.1,0.97
+Queens,HPD - FLOORING/STAIRS,2540,291.3,306.1,0.95
+Staten Island,HPD - FLOORING/STAIRS,462,213.6,306.1,0.7
+Manhattan,HPD - GENERAL,8266,451.1,367.0,1.23
+Brooklyn,HPD - GENERAL,9374,350.5,367.0,0.96
+Bronx,HPD - GENERAL,10100,349.1,367.0,0.95
+Queens,HPD - GENERAL,4832,340.3,367.0,0.93
+Staten Island,HPD - GENERAL,428,197.2,367.0,0.54
+Brooklyn,HPD - HEAT/HOT WATER,95223,48.2,42.0,1.15
+Queens,HPD - HEAT/HOT WATER,44969,48.1,42.0,1.15
+Manhattan,HPD - HEAT/HOT WATER,81265,40.5,42.0,0.96
+Staten Island,HPD - HEAT/HOT WATER,3521,37.5,42.0,0.89
+Bronx,HPD - HEAT/HOT WATER,113933,36.1,42.0,0.86
+Manhattan,HPD - PAINT/PLASTER,12058,215.0,198.3,1.08
+Bronx,HPD - PAINT/PLASTER,19646,198.1,198.3,1.0
+Brooklyn,HPD - PAINT/PLASTER,16213,195.3,198.3,0.99
+Queens,HPD - PAINT/PLASTER,6022,192.2,198.3,0.97
+Staten Island,HPD - PAINT/PLASTER,771,147.6,198.3,0.74
+Manhattan,HPD - PLUMBING,15107,218.8,211.3,1.04
+Brooklyn,HPD - PLUMBING,20136,216.9,211.3,1.03
+Queens,HPD - PLUMBING,8350,208.7,211.3,0.99
+Bronx,HPD - PLUMBING,24079,203.3,211.3,0.96
+Staten Island,HPD - PLUMBING,1399,149.3,211.3,0.71
+Queens,HPD - SAFETY,2066,222.0,202.3,1.1
+Manhattan,HPD - SAFETY,2241,216.1,202.3,1.07
+Brooklyn,HPD - SAFETY,3835,207.4,202.3,1.03
+Bronx,HPD - SAFETY,3392,197.9,202.3,0.98
+Staten Island,HPD - SAFETY,307,135.0,202.3,0.67
+Manhattan,HPD - UNSANITARY CONDITION,22646,362.1,304.8,1.19
+Queens,HPD - UNSANITARY CONDITION,14488,308.1,304.8,1.01
+Brooklyn,HPD - UNSANITARY CONDITION,31958,293.4,304.8,0.96
+Bronx,HPD - UNSANITARY CONDITION,34256,289.9,304.8,0.95
+Staten Island,HPD - UNSANITARY CONDITION,2306,190.4,304.8,0.62
+Manhattan,HPD - WATER LEAK,8015,357.9,310.1,1.15
+Brooklyn,HPD - WATER LEAK,12485,325.3,310.1,1.05
+Queens,HPD - WATER LEAK,4193,302.8,310.1,0.98
+Bronx,HPD - WATER LEAK,12337,273.2,310.1,0.88
+Staten Island,HPD - WATER LEAK,595,197.4,310.1,0.64
+Queens,NYPD - Abandoned Vehicle,25109,2.5,2.3,1.12
+Bronx,NYPD - Abandoned Vehicle,7778,2.4,2.3,1.08
+Staten Island,NYPD - Abandoned Vehicle,4523,2.1,2.3,0.93
+Brooklyn,NYPD - Abandoned Vehicle,18176,2.0,2.3,0.89
+Manhattan,NYPD - Abandoned Vehicle,2381,1.4,2.3,0.63
+Bronx,NYPD - Animal-Abuse,2248,2.3,1.8,1.27
+Queens,NYPD - Animal-Abuse,2024,2.2,1.8,1.26
+Staten Island,NYPD - Animal-Abuse,534,2.0,1.8,1.12
+Brooklyn,NYPD - Animal-Abuse,2889,1.5,1.8,0.86
+Manhattan,NYPD - Animal-Abuse,1683,1.2,1.8,0.69
+Staten Island,NYPD - Blocked Driveway,5159,1.7,1.6,1.08
+Bronx,NYPD - Blocked Driveway,26141,1.6,1.6,1.01
+Brooklyn,NYPD - Blocked Driveway,59181,1.6,1.6,1.01
+Queens,NYPD - Blocked Driveway,69100,1.6,1.6,1.01
+Manhattan,NYPD - Blocked Driveway,4065,1.1,1.6,0.66
+Queens,NYPD - Drinking,916,1.9,1.3,1.4
+Brooklyn,NYPD - Drinking,874,1.4,1.3,1.04
+Bronx,NYPD - Drinking,901,1.3,1.3,0.95
+Manhattan,NYPD - Drinking,551,0.8,1.3,0.59
+Bronx,NYPD - Drug Activity,1310,1.9,0.9,2.09
+Brooklyn,NYPD - Drug Activity,891,1.5,0.9,1.66
+Manhattan,NYPD - Drug Activity,1474,1.2,0.9,1.28
+Queens,NYPD - Drug Activity,4165,0.6,0.9,0.63
+Bronx,NYPD - Encampment,1415,2.5,1.1,2.37
+Queens,NYPD - Encampment,2703,2.4,1.1,2.29
+Brooklyn,NYPD - Encampment,3738,1.6,1.1,1.47
+Manhattan,NYPD - Encampment,18699,0.9,1.1,0.81
+Bronx,NYPD - Illegal Fireworks,1713,1.2,0.9,1.38
+Staten Island,NYPD - Illegal Fireworks,811,1.1,0.9,1.27
+Manhattan,NYPD - Illegal Fireworks,1888,0.9,0.9,1.0
+Queens,NYPD - Illegal Fireworks,3061,0.8,0.9,0.93
+Brooklyn,NYPD - Illegal Fireworks,2954,0.8,0.9,0.86
+Staten Island,NYPD - Illegal Parking,14973,1.7,1.5,1.14
+Bronx,NYPD - Illegal Parking,76096,1.7,1.5,1.12
+Brooklyn,NYPD - Illegal Parking,199187,1.6,1.5,1.05
+Queens,NYPD - Illegal Parking,158225,1.5,1.5,1.01
+Manhattan,NYPD - Illegal Parking,58170,1.0,1.5,0.7
+Bronx,NYPD - Noise - Commercial,5726,1.4,1.0,1.45
+Queens,NYPD - Noise - Commercial,9844,1.3,1.0,1.28
+Staten Island,NYPD - Noise - Commercial,864,1.1,1.0,1.11
+Brooklyn,NYPD - Noise - Commercial,15955,1.0,1.0,1.02
+Manhattan,NYPD - Noise - Commercial,17007,0.8,1.0,0.79
+Brooklyn,NYPD - Noise - House of Worship,422,1.0,0.5,2.29
+Queens,NYPD - Noise - House of Worship,1919,0.3,0.5,0.69
+Bronx,NYPD - Noise - Park,673,1.4,1.0,1.37
+Queens,NYPD - Noise - Park,2102,1.1,1.0,1.15
+Brooklyn,NYPD - Noise - Park,1201,1.1,1.0,1.12
+Manhattan,NYPD - Noise - Park,2048,0.7,1.0,0.75
+Queens,NYPD - Noise - Residential,65048,1.4,1.2,1.16
+Staten Island,NYPD - Noise - Residential,8942,1.4,1.2,1.15
+Bronx,NYPD - Noise - Residential,147079,1.3,1.2,1.09
+Brooklyn,NYPD - Noise - Residential,92525,1.1,1.2,0.89
+Manhattan,NYPD - Noise - Residential,56471,1.0,1.2,0.84
+Bronx,NYPD - Noise - Street/Sidewalk,36372,1.5,1.1,1.35
+Queens,NYPD - Noise - Street/Sidewalk,23943,1.2,1.1,1.02
+Staten Island,NYPD - Noise - Street/Sidewalk,2471,1.1,1.1,0.98
+Manhattan,NYPD - Noise - Street/Sidewalk,38373,1.0,1.1,0.9
+Brooklyn,NYPD - Noise - Street/Sidewalk,30386,0.9,1.1,0.82
+Bronx,NYPD - Noise - Vehicle,6798,1.5,1.0,1.5
+Staten Island,NYPD - Noise - Vehicle,809,1.4,1.0,1.45
+Brooklyn,NYPD - Noise - Vehicle,8273,1.1,1.0,1.11
+Manhattan,NYPD - Noise - Vehicle,7904,1.0,1.0,1.03
+Queens,NYPD - Noise - Vehicle,17164,0.7,1.0,0.73
+Staten Island,NYPD - Non-Emergency Police Matter,915,1.8,1.2,1.45
+Bronx,NYPD - Non-Emergency Police Matter,3511,1.6,1.2,1.29
+Queens,NYPD - Non-Emergency Police Matter,5156,1.2,1.2,0.99
+Brooklyn,NYPD - Non-Emergency Police Matter,5202,1.2,1.2,0.98
+Manhattan,NYPD - Non-Emergency Police Matter,5305,1.0,1.2,0.83
+Queens,NYPD - Panhandling,1204,1.5,0.8,1.84
+Brooklyn,NYPD - Panhandling,1677,1.1,0.8,1.35
+Bronx,NYPD - Panhandling,1895,0.8,0.8,0.95
+Manhattan,NYPD - Panhandling,4119,0.7,0.8,0.82
+Bronx,NYPD - Traffic,559,2.0,0.7,2.73
+Brooklyn,NYPD - Traffic,1348,1.6,0.7,2.13
+Staten Island,NYPD - Traffic,552,1.1,0.7,1.48
+Queens,NYPD - Traffic,2879,0.7,0.7,0.93
+Manhattan,NYPD - Traffic,2433,0.3,0.7,0.45
+Brooklyn,OOS - Cannabis Retailer,1092,1322.3,1077.3,1.23
+Queens,OOS - Cannabis Retailer,715,1151.5,1077.3,1.07
+Bronx,OOS - Cannabis Retailer,583,1022.9,1077.3,0.95
+Manhattan,OOS - Cannabis Retailer,840,975.4,1077.3,0.91
+Bronx,TLC - For Hire Vehicle Complaint,372,3585.2,1028.6,3.49
+Queens,TLC - For Hire Vehicle Complaint,870,2948.8,1028.6,2.87
+Brooklyn,TLC - For Hire Vehicle Complaint,1895,831.5,1028.6,0.81
+Manhattan,TLC - For Hire Vehicle Complaint,4385,679.3,1028.6,0.66
+Manhattan,TLC - Lost Property,4574,49.7,49.5,1.0
+Queens,TLC - Lost Property,1020,47.8,49.5,0.97
+Manhattan,TLC - Taxi Complaint,1022,4405.6,4174.3,1.06
+Queens,TLC - Taxi Complaint,1132,4001.7,4174.3,0.96

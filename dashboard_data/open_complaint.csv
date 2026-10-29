@@ -1,0 +1,11 @@
+complaint,requests,still_open,pct_still_open,pct_of_backlog,cumulative_pct
+HPD - HEAT/HOT WATER,312448,9460,3.0,20.9,20.9
+EDC - Noise - Helicopter,8404,8032,95.6,17.7,38.6
+DOT - Street Condition,54387,3770,6.9,8.3,46.9
+TLC - For Hire Vehicle Complaint,9310,3411,36.6,7.5,54.5
+TLC - Taxi Complaint,5167,3082,59.6,6.8,61.3
+DPR - Root/Sewer/Sidewalk Condition,4117,2284,55.5,5.0,66.3
+DPR - Overgrown Tree/Branches,5100,2154,42.2,4.8,71.0
+DPR - Damaged Tree,13446,1295,9.6,2.9,73.9
+HPD - PLUMBING,44194,1066,2.4,2.4,76.3
+DOT - Street Light Condition,17672,1059,6.0,2.3,78.6
